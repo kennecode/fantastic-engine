@@ -2,4 +2,4 @@
 
 ## Background
 
-If you want to read more about the inception of this project, visit [https://kennedy.jp/web-widgets/]
+If you want to read more about the inception of this project, [visit my blog about it](https://kennedy.jp/web-widgets/)
