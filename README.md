@@ -2,6 +2,9 @@
 
 ## Background
 
+Why the name? First, GitHub auto generated one for me and it works fine. Second, all the names I came up with were
+so generic sounding. Third, the name doesn't matter while working through this prototype.
+
 If you want to read more about the inception of this project, [visit my blog about it](https://kennedy.jp/web-widgets/)
 
 ## Get up and running
