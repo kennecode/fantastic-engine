@@ -1,0 +1,3 @@
+output: {
+  libraryTarget: 'umd'
+}
