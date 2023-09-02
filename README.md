@@ -39,8 +39,9 @@ total 64
 
 An objective way to monitor the code quality of this project.
 
-| Branch | Code Analysis                                                                                                                                                 |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Master | [![codebeat badge](https://codebeat.co/badges/7d2ad0ea-3e0f-434e-8b35-45b39d93ef5b)](https://codebeat.co/projects/github-com-kennecode-fantastic-engine-main) |
+| Branch  | Code Analysis                                                                                                                                                    |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| develop | [![codebeat badge](https://codebeat.co/badges/74670264-cc26-46d0-afb2-5ff984de10a2)](https://codebeat.co/projects/github-com-kennecode-fantastic-engine-develop) |
+| main    | [![codebeat badge](https://codebeat.co/badges/7d2ad0ea-3e0f-434e-8b35-45b39d93ef5b)](https://codebeat.co/projects/github-com-kennecode-fantastic-engine-main)    |
 
 Tool of choice for now: https://codebeat.co/
