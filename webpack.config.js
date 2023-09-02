@@ -1,3 +1,3 @@
 output: {
-  libraryTarget: 'umd'
+  libraryTarget: 'umd';
 }

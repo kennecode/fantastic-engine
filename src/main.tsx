@@ -1,11 +1,11 @@
-import habitat from 'preact-habitat'
-import 'preact/debug'
+import habitat from 'preact-habitat';
+import 'preact/debug';
 
-import App from './app'
+import App from './app';
 
-const widget = habitat(App)
+const widget = habitat(App);
 
 widget.render({
-    selector: '[data-widget="webform"]',
-    clean: true,
-})
+  selector: '[data-widget="webform"]',
+  clean: true,
+});

@@ -1,47 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="description" content="Author: A.N. Author, Illustrator: P. Picture, Category: Books, Price:  £9.24, Length: 784 pages">
-    <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Author: A.N. Author, Illustrator: P. Picture, Category: Books, Price:  £9.24, Length: 784 pages"
+    />
+    <meta
+      name="google-site-verification"
+      content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34="
+    />
     <title>Example Books - high-quality used books for children</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
     <style>
+      form {
+        display: table;
+      }
 
-        form {
-            display: table;
-        }
+      div.form-example {
+        display: table-row;
+      }
 
-        div.form-example {
-            display: table-row;
-        }
+      label,
+      input {
+        display: table-cell;
+        margin-bottom: 10px;
+      }
 
-        label,
-        input {
-            display: table-cell;
-            margin-bottom: 10px;
-        }
+      label {
+        padding-right: 10px;
+      }
 
-        label {
-            padding-right: 10px;
-        }
+      .focus {
+        border-color: darkblue;
+      }
 
-        .focus {
-            border-color: darkblue;
-        }
-
-        .error {
-            border: 2px solid red;
-        }
-        .valid {
-            border: 1px solid green;
-        }
+      .error {
+        border: 2px solid red;
+      }
+      .valid {
+        border: 1px solid green;
+      }
     </style>
-</head>
-<body>
-<div data-widget="webform">
-    <script type="text/props">
+  </head>
+  <body>
+    <div data-widget="webform">
+      <script type="text/props">
         {
             "title": "Find out if you qualify.",
             "subtitle": "It takes 60 seconds.",
@@ -193,7 +203,7 @@
             ]
         }
       </script>
-</div>
-<script type="module" src="/src/main.tsx"></script>
-</body>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

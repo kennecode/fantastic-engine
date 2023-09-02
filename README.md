@@ -35,13 +35,12 @@ total 64
 
 ```
 
-
 ## Project Metrics
 
 An objective way to monitor the code quality of this project.
 
-| Branch | Code Analysis |
-| ------ | ------------- |
+| Branch | Code Analysis                                                                                                                                                 |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Master | [![codebeat badge](https://codebeat.co/badges/7d2ad0ea-3e0f-434e-8b35-45b39d93ef5b)](https://codebeat.co/projects/github-com-kennecode-fantastic-engine-main) |
 
 Tool of choice for now: https://codebeat.co/
