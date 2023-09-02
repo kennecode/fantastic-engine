@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "test": "echo 'WIP'",
     "lint:script": "eslint --ext .ts,tsx --ignore-path .gitignore .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
