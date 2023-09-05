@@ -1,6 +1,10 @@
 export interface Form {
   title: string;
+  backButtonText: string;
+  nextButtonText: string;
+  openButtonText: string;
   subtitle: string;
+  submitButtonText: string;
   action: string;
   method: 'POST' | 'GET' | 'PUT' | 'UPDATE';
   form: FormField[];

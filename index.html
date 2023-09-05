@@ -41,6 +41,10 @@
         border-color: darkblue;
       }
 
+      .dirty {
+        border-color: darkblue;
+      }
+
       .error {
         border: 2px solid red;
       }
@@ -50,159 +54,272 @@
     </style>
   </head>
   <body>
-    <div data-widget="webform">
-      <script type="text/props">
-        {
-            "title": "Find out if you qualify.",
-            "subtitle": "It takes 60 seconds.",
-            "action": "/post",
-            "method": "POST",
-            "form": [
-                {
-                    "name": "firstname",
-                    "label": "Your Name",
-                    "type": "text",
-                    "attributes": {
-                        "required": true,
-                        "placeholder": "Enter your name",
-                        "aria-label": "Enter your name"
-                    }
-                },
-                {
-                    "name": "lastname",
-                    "label": "Your Last Name",
-                    "type": "text",
-                    "attributes": {
-                        "required": true,
-                        "placeholder": "Enter your family name",
-                        "aria-label": "Enter your family name"
-                    }
-                },
-                {
-                    "name": "phone",
-                    "label": "Phone",
-                    "type": "tel",
-                    "attributes": {
-                        "required": true,
-                        "placeholder": "000-000-0000",
-                        "aria-label": "Enter your phone",
-                        "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    }
-                },
-                {
-                    "name": "email",
-                    "label": "Email",
-                    "type": "email",
-                    "attributes": {
-                        "required": true,
-                        "placeholder": "Enter your address",
-                        "aria-label": "Enter your address"
-                    }
-                },
-                {
-                    "name": "password",
-                    "label": "Password",
-                    "type": "password",
-                    "attributes": {
-                        "required": true,
-                        "placeholder": "Type your password",
-                        "aria-label": "Enter your password"
-                    }
-                },
-                {
-                    "name": "notes",
-                    "label": "Tell us notes",
-                    "type": "textarea",
-                    "attributes": {
-                        "required": true,
-                        "placeholder": "Describe notes",
-                        "aria-label": "Enter your notes"
-                    }
-                },
-                {
-                    "name": "topics",
-                    "label": "What topics are you interested in?",
-                    "type": "checkbox",
-                    "attributes": {
-                        "required": true,
-                        "aria-label": "What are you interested in"
-                    },
-                    "values": [
-                        {
-                            "value": "art",
-                            "display": "Art"
-                        },
-                        {
-                            "value": "science",
-                            "display": "Science"
-                        },
-                        {
-                            "value": "technology",
-                            "display": "Technology"
+    <h1>Lorem Ipsum</h1>
+    <h2>Lorem Ipsum</h2>
+    <div>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam gravida
+        risus quis metus ornare, id rhoncus sapien placerat. Vivamus vel
+        ultrices arcu. Suspendisse potenti. Cras consequat, justo at venenatis
+        euismod, sapien metus luctus ligula, vel faucibus nisi purus vel augue.
+        Sed ut ante eu nulla eleifend ultrices ut sit amet lacus. Sed porta
+        malesuada tristique. Cras id lectus at est fermentum sollicitudin.
+        Maecenas at diam mi. Curabitur non massa rhoncus, pretium odio quis,
+        facilisis odio. Suspendisse iaculis id neque at congue. Phasellus luctus
+        felis non nisi tincidunt, ut mollis dolor ultrices. Curabitur placerat
+        lorem sed enim aliquet, sit amet luctus massa blandit. Aenean nunc
+        nulla, lobortis at euismod vel, imperdiet at ex. Mauris interdum
+        molestie eros, et laoreet dui tincidunt ut. Proin libero lectus,
+        suscipit ut leo nec, tincidunt volutpat sapien. Vestibulum ante ipsum
+        primis in faucibus orci luctus et ultrices posuere cubilia curae;
+      </p>
+      <p>
+        Nunc tempus lobortis rhoncus. Vestibulum ante ipsum primis in faucibus
+        orci luctus et ultrices posuere cubilia curae; Vivamus tristique
+        convallis dui a pretium. Proin ultricies porttitor est nec sagittis.
+        Nulla sit amet porta neque. Aliquam erat volutpat. Praesent mattis odio
+        augue, id ornare velit placerat et. Cras facilisis metus eu euismod
+        pharetra. Mauris lectus magna, aliquet sed nulla ac, suscipit luctus mi.
+        Suspendisse viverra vehicula dolor vitae feugiat. Mauris ac nisl
+        commodo, commodo justo mattis, porta massa. In quis augue sagittis,
+        pharetra risus at, iaculis purus. Aliquam nec odio purus. Duis pulvinar
+        eu magna sed fringilla. Donec auctor ante felis, ac semper libero
+        consectetur tincidunt. Nunc efficitur nisi id pretium accumsan.
+      </p>
+      <p>
+        Vivamus finibus massa a libero tempor auctor. Proin hendrerit, nisi eget
+        efficitur viverra, dui ligula imperdiet nibh, vulputate vulputate ipsum
+        eros a neque. Sed vitae massa vehicula, commodo magna vel, ullamcorper
+        nulla. In eget ante porttitor, tincidunt est et, ullamcorper odio.
+        Maecenas id dignissim sem. Praesent justo ligula, congue a elit non,
+        tincidunt aliquam felis. Sed eu dui purus. Cras molestie semper commodo.
+      </p>
+      <p>
+        Aenean elit purus, tincidunt pellentesque ipsum vel, ultricies iaculis
+        metus. Fusce fringilla erat sit amet diam finibus, tempus eleifend
+        tellus sollicitudin. In ut elit eget libero tempor aliquam quis et
+        nulla. Pellentesque sit amet libero hendrerit, elementum risus nec,
+        vulputate nulla. Nam mattis tortor ac ex porttitor sollicitudin. Etiam
+        ultrices semper lacus, a blandit quam egestas a. Pellentesque sed augue
+        quis diam tincidunt posuere. Suspendisse gravida vel magna ac pharetra.
+      </p>
+      <p>
+        Suspendisse orci purus, egestas eget pharetra a, pretium eu libero.
+        Mauris arcu libero, euismod quis accumsan in, vehicula in lacus.
+        Praesent dapibus finibus turpis, ac pellentesque nunc tristique vitae.
+        Pellentesque habitant morbi tristique senectus et netus et malesuada
+        fames ac turpis egestas. Morbi scelerisque ex sem, vel sodales magna
+        sagittis lacinia. Cras gravida arcu ac elit sodales, non porttitor urna
+        euismod. Ut libero mi, mattis eu congue vitae, posuere vel lacus. Donec
+        ac ligula sit amet ipsum suscipit placerat non at elit. Quisque in
+        gravida nunc. Integer hendrerit nibh non felis commodo, faucibus dapibus
+        justo pretium. Fusce et sodales est. Duis posuere ante a viverra
+        laoreet. Nulla finibus justo tellus, nec porttitor tortor tempus ut.
+        Duis hendrerit scelerisque turpis ac accumsan. Nullam vehicula ut ante
+        vel sodales. In hac habitasse platea dictumst.
+      </p>
+      <div>
+        <div data-widget="webform">
+          <script type="text/props">
+            {
+                "title": "Find out if you qualify.",
+                "subtitle": "It takes 60 seconds.",
+                "openButtonText": "Register for the event in 60 seconds",
+                "submitButtonText": "Submit",
+                "action": "/post",
+                "method": "POST",
+                "form": [
+                    {
+                        "name": "firstname",
+                        "label": "What is your first name?",
+                        "type": "text",
+                        "attributes": {
+                            "required": true,
+                            "placeholder": "Enter your name",
+                            "aria-label": "Enter your name"
                         }
-                    ]
-                },
-                {
-                    "name": "referral",
-                    "label": "How did you hear about us?",
-                    "type": "radio",
-                    "attributes": {
-                        "required": true
                     },
-                    "values": [
-                        {
-                            "value": "search",
-                            "display": "Search"
-                        },
-                        {
-                            "value": "friend",
-                            "display": "A Friend"
-                        },
-                        {
-                            "value": "other",
-                            "display": "Somewhere else"
+                    {
+                        "name": "lastname",
+                        "label": "What is your last name?",
+                        "type": "text",
+                        "attributes": {
+                            "required": true,
+                            "placeholder": "Enter your family name",
+                            "aria-label": "Enter your family name"
                         }
-                    ]
-                },
-                {
-                    "name": "company_size",
-                    "label": "How big is your company?",
-                    "type": "select",
-                    "attributes": {
-                        "required": true
                     },
-                    "values": [
-                        {
-                            "value": "1-10",
-                            "display": "1 to 10"
-                        },
-                        {
-                            "value": "11-20",
-                            "display": "11 to 20"
-                        },
-                        {
-                            "value": "21-30",
-                            "display": "21 to 30"
+                    {
+                        "name": "phone",
+                        "label": "Phone",
+                        "type": "tel",
+                        "attributes": {
+                            "required": true,
+                            "placeholder": "000-000-0000",
+                            "aria-label": "Enter your phone",
+                            "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"
                         }
-                    ]
-                },
-                {
-                    "name": "i_agree",
-                    "label": "Terms & Conditions",
-                    "type": "checkbox",
-                    "attributes": {
-                        "required": true
                     },
-                    "values": [
-                        {
-                            "value": "yes",
-                            "display": "I agree to the terms and conditions"
+                    {
+                        "name": "email",
+                        "label": "Email",
+                        "type": "email",
+                        "attributes": {
+                            "required": true,
+                            "placeholder": "Enter your address",
+                            "aria-label": "Enter your address"
                         }
-                    ]
-                }
-            ]
-        }
-      </script>
+                    },
+                    {
+                        "name": "password",
+                        "label": "Password",
+                        "type": "password",
+                        "attributes": {
+                            "required": true,
+                            "placeholder": "Type your password",
+                            "aria-label": "Enter your password"
+                        }
+                    },
+                    {
+                        "name": "notes",
+                        "label": "Tell us notes",
+                        "type": "textarea",
+                        "attributes": {
+                            "required": true,
+                            "placeholder": "Describe notes",
+                            "aria-label": "Enter your notes"
+                        }
+                    },
+                    {
+                        "name": "topics",
+                        "label": "What topics are you interested in?",
+                        "type": "checkbox",
+                        "attributes": {
+                            "required": true,
+                            "aria-label": "What are you interested in"
+                        },
+                        "values": [
+                            {
+                                "value": "art",
+                                "display": "Art"
+                            },
+                            {
+                                "value": "science",
+                                "display": "Science"
+                            },
+                            {
+                                "value": "technology",
+                                "display": "Technology"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "referral",
+                        "label": "How did you hear about us?",
+                        "type": "radio",
+                        "attributes": {
+                            "required": true
+                        },
+                        "values": [
+                            {
+                                "value": "search",
+                                "display": "Search"
+                            },
+                            {
+                                "value": "friend",
+                                "display": "A Friend"
+                            },
+                            {
+                                "value": "other",
+                                "display": "Somewhere else"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "company_size",
+                        "label": "How big is your company?",
+                        "type": "select",
+                        "attributes": {
+                            "required": true
+                        },
+                        "values": [
+                            {
+                                "value": "1-10",
+                                "display": "1 to 10"
+                            },
+                            {
+                                "value": "11-20",
+                                "display": "11 to 20"
+                            },
+                            {
+                                "value": "21-30",
+                                "display": "21 to 30"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "i_agree",
+                        "label": "Terms & Conditions",
+                        "type": "checkbox",
+                        "attributes": {
+                            "required": true
+                        },
+                        "values": [
+                            {
+                                "value": "yes",
+                                "display": "I agree to the terms and conditions"
+                            }
+                        ]
+                    }
+                ]
+            }
+          </script>
+        </div>
+      </div>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam gravida
+        risus quis metus ornare, id rhoncus sapien placerat. Vivamus vel
+        ultrices arcu. Suspendisse potenti. Cras consequat, justo at venenatis
+        euismod, sapien metus luctus ligula, vel faucibus nisi purus vel augue.
+        Sed ut ante eu nulla eleifend ultrices ut sit amet lacus. Sed porta
+        malesuada tristique. Cras id lectus at est fermentum sollicitudin.
+        Maecenas at diam mi. Curabitur non massa rhoncus, pretium odio quis,
+        facilisis odio. Suspendisse iaculis id neque at congue. Phasellus luctus
+        felis non nisi tincidunt, ut mollis dolor ultrices. Curabitur placerat
+        lorem sed enim aliquet, sit amet luctus massa blandit. Aenean nunc
+        nulla, lobortis at euismod vel, imperdiet at ex. Mauris interdum
+        molestie eros, et laoreet dui tincidunt ut. Proin libero lectus,
+        suscipit ut leo nec, tincidunt volutpat sapien. Vestibulum ante ipsum
+        primis in faucibus orci luctus et ultrices posuere cubilia curae;
+      </p>
+      <p>
+        Nunc tempus lobortis rhoncus. Vestibulum ante ipsum primis in faucibus
+        orci luctus et ultrices posuere cubilia curae; Vivamus tristique
+        convallis dui a pretium. Proin ultricies porttitor est nec sagittis.
+        Nulla sit amet porta neque. Aliquam erat volutpat. Praesent mattis odio
+        augue, id ornare velit placerat et. Cras facilisis metus eu euismod
+        pharetra. Mauris lectus magna, aliquet sed nulla ac, suscipit luctus mi.
+        Suspendisse viverra vehicula dolor vitae feugiat. Mauris ac nisl
+        commodo, commodo justo mattis, porta massa. In quis augue sagittis,
+        pharetra risus at, iaculis purus. Aliquam nec odio purus. Duis pulvinar
+        eu magna sed fringilla. Donec auctor ante felis, ac semper libero
+        consectetur tincidunt. Nunc efficitur nisi id pretium accumsan.
+      </p>
+      <p>
+        Suspendisse orci purus, egestas eget pharetra a, pretium eu libero.
+        Mauris arcu libero, euismod quis accumsan in, vehicula in lacus.
+        Praesent dapibus finibus turpis, ac pellentesque nunc tristique vitae.
+        Pellentesque habitant morbi tristique senectus et netus et malesuada
+        fames ac turpis egestas. Morbi scelerisque ex sem, vel sodales magna
+        sagittis lacinia. Cras gravida arcu ac elit sodales, non porttitor urna
+        euismod. Ut libero mi, mattis eu congue vitae, posuere vel lacus. Donec
+        ac ligula sit amet ipsum suscipit placerat non at elit. Quisque in
+        gravida nunc. Integer hendrerit nibh non felis commodo, faucibus dapibus
+        justo pretium. Fusce et sodales est. Duis posuere ante a viverra
+        laoreet. Nulla finibus justo tellus, nec porttitor tortor tempus ut.
+        Duis hendrerit scelerisque turpis ac accumsan. Nullam vehicula ut ante
+        vel sodales. In hac habitasse platea dictumst.
+      </p>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
