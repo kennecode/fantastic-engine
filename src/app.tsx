@@ -1,104 +1,86 @@
-import { Form, FormField, FieldValue, FieldAttributes } from './app.interfaces';
-import React, { useEffect, useState, useReducer } from 'preact/compat';
-import { useLocalStorage } from './hooks/useLocalStorage';
-import { slidesReducer, initialSlideState } from './reducers/slides';
-import style from './style';
+import React, { useReducer } from 'preact/compat';
+import { surveyReducer, initialSurveyState } from './reducers/surveyReducer';
+import { Lightbox } from 'src/components/Lightbox';
+import { useKeyup } from 'src/hooks/useKeyup';
+import { Attention } from 'src/components/Attention';
+import { Splash } from 'src/components/Splash';
+import { ToggleVisibility } from 'src/components/ToggleVisibility';
+import { Survey, SurveyQuestion } from 'src/components/Survey';
+import {
+  DataListFieldGroup,
+  TextareaFieldGroup,
+  TextFieldGroup,
+} from 'src/components/Field';
+import { Form, FormActions, FormButton } from 'src/components/Form';
+import { Confirmation } from 'src/components/Confirmation';
+import { CheckboxFieldGroup } from 'src/components/Field/CheckboxFieldGroup';
 
-export default function App(props: Form) {
-  const [slides, dispatchSlides] = useReducer(slidesReducer, initialSlideState);
-  const [showSurvey, setShowSurvey] = useState(false);
-  const { title, subtitle } = props;
+interface FieldAttributes {
+  required?: boolean | undefined | null;
+  pattern?: string | null;
+  [key: string]: any; // For additional properties
+}
 
-  if (slides.count === null && props.form.length) {
-    dispatchSlides({
+interface FormField {
+  name: string;
+  type: string;
+  label: string;
+  description?: string;
+  attributes?: FieldAttributes;
+  options?: { value: string; label: string }[];
+}
+
+interface Form {
+  fields: FormField[];
+}
+
+interface SplashProps {
+  // assuming splash properties here, as they aren't clearly defined in the provided code
+  title?: string;
+  message?: string;
+  [key: string]: any;
+}
+
+interface AppProps {
+  openText?: string;
+  splash?: SplashProps;
+  form: Form;
+}
+
+export default function App(props: AppProps) {
+  const { openText, splash } = props;
+  const { form } = props;
+  const { fields } = form;
+  const [survey, dispatchSurvey] = useReducer(surveyReducer, {
+    ...initialSurveyState,
+    ...{
+      hasSplash: !!splash,
+    },
+  });
+
+  if (survey?.fieldCount === null && props.form?.fields?.length) {
+    const fields = props.form.fields.map((f) => {
+      return {
+        name: f.name,
+        required: f?.attributes?.required || false,
+        pattern: f?.attributes?.pattern || null,
+      };
+    });
+    dispatchSurvey({
       type: 'create',
-      form: props.form,
-      action: props.action,
-      method: props.method,
+      fields: fields,
+      fieldCount: fields.length,
     });
   }
 
-  const moveStep = (next: number) => {
-    const nextStep = slides.step + next;
-    return (e: any) => {
-      e.preventDefault();
-      if (next < 0) {
-        dispatchSlides({ type: 'previous' });
-        return true;
-      }
-
-      if (hasError()) {
-        return;
-      }
-      dispatchSlides({ type: 'next' });
-    };
-  };
-
-  /**
-   * Handle key controls on keyboard
-   * @param e
-   */
-  function formKeyboardControls(e: KeyboardEvent) {
-    switch (e.key) {
-      case 'Escape': // Escape key
-        setShowSurvey(false);
-        break;
-      case 'Enter': // Enter key
-        console.log('Return !');
-        break;
-      case 'ArrowDown': // Enter key
-        dispatchSlides({ type: 'next' });
-        break;
-      case 'ArrowUp': // Enter key
-        dispatchSlides({ type: 'previous' });
-        break;
-    }
-  }
-
-  // If survey is shown, let's make sure body isn't scrollable
-  useEffect(() => {
-    document.body.style.overflow = showSurvey ? 'hidden' : 'auto';
-    if (showSurvey) {
-      document.body.addEventListener('keyup', formKeyboardControls);
-    }
-    return () => {
-      document.body.removeEventListener('keyup', formKeyboardControls);
-    };
-  }, [showSurvey]);
-
-  // Let's check the form inputs as data changes
-  useEffect(() => {
-    const body = document.body;
-    body.style.overflow = showSurvey ? 'hidden' : 'auto';
-    slides.form.forEach((p: FormField) => {
-      // const field = document.getElementById(p.name);
-      // const valid = field?.checkValidity();
-      // console.log(p.name, field?.checkValidity());
-      // if (field && !valid) {
-      //     field.classList.add('error');
-      //     field.classList.remove('valid');
-      // } else if (field && valid) {
-      //     field.classList.add('valid');
-      //     field.classList.remove('error');
-      // }
-      // {p.values.map((o:FieldValue) => (
+  const close = () => {
+    dispatchSurvey({
+      type: 'close',
     });
-  }, [slides.form, slides.data, showSurvey]);
-
-  const onFocus = (e: any) => {
-    e.target.classList.toggle('focus');
   };
 
-  const onBlur = (e: any) => {
-    e.target.classList.toggle('focus');
-  };
-
-  // save data as it changes
-  const updateData = (e: any) => {
-    if (!e.target.classList.contains('dirty')) {
-      e.target.classList.toggle('dirty');
-    }
-    dispatchSlides({
+  const captureFormData = (e: any) => {
+    dispatchSurvey({
       type: 'save',
       data: {
         [e.target.name]: e.target.value,
@@ -106,178 +88,273 @@ export default function App(props: Form) {
     });
   };
 
-  const renderFormInput = (p: FormField) => {
-    // return formInput(p);
-  };
-
-  const hasError = () => {
-    const p = slides.form[slides.step];
-    const field = document.getElementById(p.name);
-    const valid = field?.checkValidity();
-    if (field && !valid) {
-      field.classList.add('error');
-      field.classList.remove('valid');
-    } else {
-      field.classList.add('valid');
-      field.classList.remove('error');
-    }
-
-    return field && !valid;
-    // console.log(p.name, field?.checkValidity());
-    // if (field && !valid) {
-    //     field.classList.add('error');
-    //     field.classList.remove('valid');
-    // } else if (field && valid) {
-    //     field.classList.add('valid');
-    //     field.classList.remove('error');
-    // }
-    // {p.values.map((o:FieldValue) => (
-  };
-
-  const formInput = (p: FormField, i: number) => {
-    const value: any = slides.data[p.name as keyof Object] || '';
-    const attributes: FieldAttributes = p.attributes || {};
-    const show = slides.step === i ? style.show : style.hide;
-    switch (p.type) {
-      case 'text':
-      case 'tel':
-      case 'email':
-      case 'password':
-        return (
-          <div style={show}>
-            <label for={p.name}>{p.label}</label>
-            <input
-              id={p.name}
-              name={p.name}
-              type={p.type}
-              onInput={updateData}
-              onFocus={onFocus}
-              onblur={onBlur}
-              value={value}
-              {...attributes}
-            />
-          </div>
-        );
-      case 'radio':
-      case 'checkbox':
-        return (
-          <div style={show}>
-            <label>{p.label}</label>
-            {p.values?.map((o: FieldValue) => (
-              <>
-                <input
-                  id={`${p.name}_${o.value}`}
-                  name={`${p.name}_${o.value}`}
-                  type={p.type}
-                  onClick={updateData}
-                  value={o.value}
-                  checked={o.value === value}
-                  {...attributes}
-                />
-                <label for={`${p.name}_${o.value}`}>{o.display}</label>
-              </>
-            ))}
-          </div>
-        );
-      case 'textarea':
-        return (
-          <div style={show}>
-            <label for={p.name}>{p.label}</label>
-            <textarea
-              id={p.name}
-              name={p.name}
-              onInput={updateData}
-              {...attributes}
-            >
-              {value}
-            </textarea>
-          </div>
-        );
-      case 'select':
-        return (
-          <div style={show}>
-            <label>{p.label}</label>
-            <select name={p.name} onChange={updateData} {...attributes}>
-              {p.values?.map((o: FieldValue) => (
-                <option value={o.value} selected={o.value === value}>
-                  {o.display}
-                </option>
-              ))}
-            </select>
-          </div>
-        );
-    }
-  };
-
-  const submit = (e: any) => {
-    e.preventDefault();
-    const formData = new FormData();
-    Object.entries(slides.data).forEach((p: any) => {
-      formData.append(p[0], p[1]);
+  const submitForm = (e: any) => {
+    // what are we doing?
+    dispatchSurvey({
+      type: 'posting',
     });
-    fetch(slides.action, {
-      body: formData,
-      method: slides.method,
+    setTimeout(() => {
+      dispatchSurvey({
+        type: 'successfulPost',
+        response: 'Success!',
+      });
+      dispatchSurvey({
+        type: 'showConfirmation',
+      });
+    }, 5000);
+  };
+
+  const dispatchSurveyError = (message: string, field?: string) => {
+    dispatchSurvey({
+      type: 'hasError',
+      errorMessage: message,
+      field: field,
     });
   };
 
-  const toggleSurvey = () => {
-    setShowSurvey(!showSurvey);
+  const handleValidation = () => {
+    const { name, type, attributes = {} } = fields[survey.step];
+    const { required, pattern } = attributes;
+    if (required && (!survey.data[name] || !survey.data[name].length)) {
+      dispatchSurveyError(`Please enter ${name}`, name);
+      return true;
+    }
+    const value = survey.data[name];
+    if (pattern && !value?.match(pattern)) {
+      dispatchSurveyError(`Please correct the ${name} field`, name);
+      return true;
+    }
+    if (
+      type === 'email' &&
+      !value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
+    ) {
+      dispatchSurveyError(`Please correct the ${name} field`, name);
+      return true;
+    }
+    return false;
   };
+
+  const handleNext = (e: any) => {
+    const { name } = fields[survey.step];
+    const hasError = handleValidation();
+    if (!hasError) {
+      dispatchSurvey({
+        type: 'resetError',
+        field: name,
+      });
+      dispatchSurvey({
+        type: 'next',
+      });
+    }
+  };
+
+  const handlePrevious = (e: any) => {
+    // @TODO Decide if going to the previous step with an invalid field should be ok
+    dispatchSurvey({
+      type: 'previous',
+    });
+  };
+
+  const resetForm = (e: any) => {
+    dispatchSurvey({
+      type: 'reset',
+    });
+  };
+
+  const checkboxInputs = ['checkbox'];
+  const dataListInputs = ['select', 'datalist'];
+  const textInputs = ['text', 'email', 'password', 'tel', 'textarea'];
+  const textareaInputs = ['textarea'];
+
+  useKeyup({
+    Escape: () => {
+      close();
+    },
+  });
 
   return (
-    <div style={style.app}>
-      <span>
-        <button type="button" onClick={toggleSurvey}>
-          {props.openButtonText || 'Open Survey'}
-        </button>
-      </span>
-      {!showSurvey ? null : (
-        <div style={style.surveyContainer}>
-          <div style={style.surveyContent}>
-            <div
-              style={{
-                ...style.surveyProgress,
-                ...{ width: `${(slides.step / (slides.count - 1)) * 100}%` },
+    <>
+      <Attention
+        onClick={() =>
+          dispatchSurvey({
+            type: 'open',
+          })
+        }
+      >
+        {openText || 'Open Survey'}
+      </Attention>
+      <Lightbox open={survey.open} onClose={() => close()}>
+        <Splash
+          open={survey.showSplash}
+          {...splash}
+          onContinue={() =>
+            dispatchSurvey({
+              type: 'showForm',
+            })
+          }
+        />
+        <ToggleVisibility open={survey.showForm}>
+          <ToggleVisibility open={!survey.posting}>
+            <Form
+              onSubmit={submitForm}
+              hasError={survey.hasError}
+              errorMessage={survey.errorMessage}
+            >
+              <Survey>
+                {props?.form?.fields?.map((field, i) => {
+                  const attributes = field.attributes || {};
+                  if (checkboxInputs.includes(field.type)) {
+                    return (
+                      <SurveyQuestion
+                        key={`question${i}`}
+                        open={survey.step === i}
+                        hasNext={survey.hasNext}
+                        hasPrevious={survey.hasPrevious}
+                        onNext={handleNext}
+                        onPrevious={handlePrevious}
+                      >
+                        <CheckboxFieldGroup
+                          name={field.name}
+                          label={field.label}
+                          description={field.description}
+                          type={field.type}
+                          onChange={captureFormData}
+                          value={survey.data[field.name]}
+                          {...attributes}
+                          options={field.options}
+                          hasError={
+                            !survey.fieldErrors ||
+                            survey.fieldErrors[field.name] ||
+                            false
+                          }
+                        />
+                      </SurveyQuestion>
+                    );
+                  } else if (dataListInputs.includes(field.type)) {
+                    return (
+                      <SurveyQuestion
+                        key={`question${i}`}
+                        open={survey.step === i}
+                        hasNext={survey.hasNext}
+                        hasPrevious={survey.hasPrevious}
+                        onNext={handleNext}
+                        onPrevious={handlePrevious}
+                      >
+                        <DataListFieldGroup
+                          name={field.name}
+                          label={field.label}
+                          description={field.description}
+                          type={field.type}
+                          onChange={captureFormData}
+                          value={survey.data[field.name]}
+                          {...attributes}
+                          options={field.options}
+                          hasError={
+                            !survey.fieldErrors ||
+                            survey.fieldErrors[field.name] ||
+                            false
+                          }
+                        />
+                      </SurveyQuestion>
+                    );
+                  } else if (textInputs.includes(field.type)) {
+                    return (
+                      <SurveyQuestion
+                        key={`question${i}`}
+                        open={survey.step === i}
+                        hasNext={survey.hasNext}
+                        hasPrevious={survey.hasPrevious}
+                        onNext={handleNext}
+                        onPrevious={handlePrevious}
+                      >
+                        <TextFieldGroup
+                          name={field.name}
+                          label={field.label}
+                          description={field.description}
+                          type={field.type}
+                          autofocus={survey.step === i}
+                          onChange={captureFormData}
+                          value={survey.data[field.name]}
+                          hasError={
+                            !survey.fieldErrors ||
+                            survey.fieldErrors[field.name] ||
+                            false
+                          }
+                          {...attributes}
+                        />
+                      </SurveyQuestion>
+                    );
+                  } else if (textareaInputs.includes(field.type)) {
+                    return (
+                      <SurveyQuestion
+                        key={`question${i}`}
+                        open={survey.step === i}
+                        hasNext={survey.hasNext}
+                        hasPrevious={survey.hasPrevious}
+                        onNext={handleNext}
+                        onPrevious={handlePrevious}
+                      >
+                        <TextareaFieldGroup
+                          name={field.name}
+                          label={field.label}
+                          description={field.description}
+                          autofocus={survey.step === i}
+                          onChange={captureFormData}
+                          value={survey.data[field.name]}
+                          hasError={
+                            !survey.fieldErrors ||
+                            survey.fieldErrors[field.name] ||
+                            false
+                          }
+                          {...attributes}
+                        />
+                      </SurveyQuestion>
+                    );
+                  } else {
+                    return (
+                      <SurveyQuestion
+                        key={`question${i}`}
+                        open={survey.step === i}
+                        hasNext={survey.hasNext}
+                        hasPrevious={survey.hasPrevious}
+                        onNext={handleNext}
+                        onPrevious={handlePrevious}
+                      >
+                        <span>Control is not support</span>
+                      </SurveyQuestion>
+                    );
+                  }
+                })}
+              </Survey>
+              <ToggleVisibility open={survey.step + 1 === survey.fieldCount}>
+                <FormActions>
+                  {/*<FormButton type="button" onClick={resetForm}>Reset</FormButton>*/}
+                  <FormButton>Submit</FormButton>
+                </FormActions>
+              </ToggleVisibility>
+            </Form>
+          </ToggleVisibility>
+          <ToggleVisibility open={survey.posting}>
+            <div>Please wait while we save your data.</div>
+          </ToggleVisibility>
+        </ToggleVisibility>
+        <ToggleVisibility open={survey.showConfirmation}>
+          <Confirmation>
+            Thank you!
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatchSurvey({
+                  type: 'close',
+                });
               }}
-            />
-            <div style={style.surveyCloseContainer}>
-              <a href="#" onClick={toggleSurvey} style={style.surveyClose}>
-                &#10005;
-              </a>
-            </div>
-            <div style={style.surveyFormContainer}>
-              {!title ? null : <h1 style={style.surveyH1}>{title}</h1>}
-              {!subtitle ? null : <h2 style={style.surveyH2}>{subtitle}</h2>}
-              <div style={{ fontSize: 8 }}>
-                Step {slides.step + 1} of {slides.count}
-              </div>
-              <form style={style.surveyForm} onSubmit={submit}>
-                <div style={style.surveyFormContent}>
-                  {slides.form.map(formInput)}
-                </div>
-                <div style={style.surveyButtons}>
-                  {slides.step > 0 ? (
-                    <button type="button" onClick={moveStep(-1)}>
-                      {props.backButtonText || 'Back'}
-                    </button>
-                  ) : null}
-                  {slides.step < slides.count - 1 ? (
-                    <button type="button" onClick={moveStep(1)}>
-                      {props.nextButtonText || 'Next'}
-                    </button>
-                  ) : null}
-                  {slides.step === slides.count - 1 ? (
-                    <button type="submit">
-                      {props.submitButtonText || 'Submit'}
-                    </button>
-                  ) : null}
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+            >
+              Close this window
+            </a>
+          </Confirmation>
+        </ToggleVisibility>
+      </Lightbox>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 export interface Form {
+  multistep: boolean;
   title: string;
   backButtonText: string;
   nextButtonText: string;
@@ -13,6 +14,7 @@ export interface Form {
 export interface FormField {
   name: string;
   label: string;
+  description: string;
   type:
     | 'text'
     | 'tel'

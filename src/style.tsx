@@ -11,7 +11,7 @@ export default {
     listStyle: 'none',
   },
   surveyContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, .85)',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -24,8 +24,11 @@ export default {
     background: '#fff',
     width: '50%',
     minHeight: 75,
+    minWidth: 380,
+    maxHeight: '100vh',
     margin: 'auto',
     padding: 15,
+    overflowY: 'auto',
   },
   surveyProgress: {
     backgroundColor: 'rgba(1, 1, 1, 1)',
@@ -51,10 +54,7 @@ export default {
     fontWeight: 'normal',
     fontSize: 14,
   },
-  surveyFormContainer: {
-    height: '100%',
-    overflowY: 'scroll',
-  },
+  surveyFormContainer: {},
   surveyForm: {
     display: 'block',
     width: '100%',
@@ -69,5 +69,8 @@ export default {
   },
   hide: {
     display: 'none',
+  },
+  surveyInput: {
+    border: '0 0 1px 0 solid #99999',
   },
 };

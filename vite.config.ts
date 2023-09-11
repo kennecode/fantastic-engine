@@ -9,5 +9,10 @@ export default defineConfig({
       src: resolve('src/'),
     },
   },
+  build: {
+    minify: true,
+    manifest: true,
+    emptyOutDir: true,
+  },
   plugins: [preact()],
 });
