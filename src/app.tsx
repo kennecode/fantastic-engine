@@ -50,11 +50,6 @@ interface AppProps {
 
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
-const CHECKBOX_INPUTS = ['checkbox', 'radio'];
-const DATALIST_INPUTS = ['select', 'datalist'];
-const TEXT_INPUTS = ['text', 'email', 'password', 'tel'];
-const TEXTAREA_INPUTS = ['textarea'];
-
 export default function App({ openText, splash, form }: AppProps) {
   const { fields } = form;
   const [survey, dispatchSurvey] = useReducer(surveyReducer, {
