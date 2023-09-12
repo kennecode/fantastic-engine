@@ -31,6 +31,8 @@ interface FormField {
 }
 
 interface Form {
+  action?: string;
+  method?: 'POST' | 'GET' | 'PUT' | 'UPDATE';
   fields: FormField[];
 }
 
@@ -80,20 +82,46 @@ export default function App(props: AppProps) {
   };
 
   const captureFormData = (e: any) => {
+    if (e.target) {
+      dispatchSurvey({
+        type: 'save',
+        data: {
+          [e.target.name]: e.target.value,
+        },
+      });
+      return;
+    }
     dispatchSurvey({
       type: 'save',
-      data: {
-        [e.target.name]: e.target.value,
-      },
+      data: e,
     });
   };
 
-  const submitForm = (e: any) => {
-    // what are we doing?
-    dispatchSurvey({
-      type: 'posting',
-    });
-    setTimeout(() => {
+  const submitForm = async (e: any) => {
+    try {
+      dispatchSurvey({
+        type: 'posting',
+      });
+
+      const { action = '#', method = 'post' } = form;
+
+      const formData = Object.entries(survey.data).reduce(
+        (acc: any, field: any) => {
+          if (typeof field[1] === 'object') {
+            Object.entries(field[1]).forEach(([key, value]) => {
+              acc.append(`${field[0]}[${key}]`, value);
+            });
+          } else {
+            acc.append(field[0], field[1]);
+          }
+          return acc;
+        },
+        new FormData()
+      );
+      const response = await fetch(action, {
+        body: formData,
+        method: method,
+      });
       dispatchSurvey({
         type: 'successfulPost',
         response: 'Success!',
@@ -101,7 +129,9 @@ export default function App(props: AppProps) {
       dispatchSurvey({
         type: 'showConfirmation',
       });
-    }, 5000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const dispatchSurveyError = (message: string, field?: string) => {
@@ -115,10 +145,26 @@ export default function App(props: AppProps) {
   const handleValidation = () => {
     const { name, type, attributes = {} } = fields[survey.step];
     const { required, pattern } = attributes;
-    if (required && (!survey.data[name] || !survey.data[name].length)) {
+    console.log(!survey.data[name] || !survey.data[name].length);
+    if (
+      required &&
+      !survey.data[name] &&
+      (typeof survey.data[name] !== 'string' || !survey.data[name].length)
+    ) {
       dispatchSurveyError(`Please enter ${name}`, name);
       return true;
     }
+    if (required && typeof survey.data[name] === 'object') {
+      const optionSelected = Object.values(survey.data[name]).filter(
+        (v) => v === true
+      );
+      console.log(optionSelected);
+      if (!optionSelected.length) {
+        dispatchSurveyError(`Please enter ${name}`, name);
+        return true;
+      }
+    }
+
     const value = survey.data[name];
     if (pattern && !value?.match(pattern)) {
       dispatchSurveyError(`Please correct the ${name} field`, name);
@@ -161,9 +207,9 @@ export default function App(props: AppProps) {
     });
   };
 
-  const checkboxInputs = ['checkbox'];
+  const checkboxInputs = ['checkbox', 'radio'];
   const dataListInputs = ['select', 'datalist'];
-  const textInputs = ['text', 'email', 'password', 'tel', 'textarea'];
+  const textInputs = ['text', 'email', 'password', 'tel'];
   const textareaInputs = ['textarea'];
 
   useKeyup({

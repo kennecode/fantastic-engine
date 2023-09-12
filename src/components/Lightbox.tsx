@@ -1,5 +1,6 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
+import { useMediaQueries } from 'src/hooks/useMediaQueries';
 
 const LightboxContainer = (props: any) => {
   const dataAttributeValue: string = 'lightbox-container';
@@ -8,6 +9,12 @@ const LightboxContainer = (props: any) => {
     if (target === dataAttributeValue && typeof props.onClose === 'function')
       props.onClose();
   };
+
+  const isTiny = useMediaQueries('only screen and (min-width: 40em)');
+  const isSmall = useMediaQueries('only screen and (min-width: 48em)');
+  const isMedium = useMediaQueries('only screen and (min-width: 64em)');
+  const isLarge = useMediaQueries('only screen and (min-width: 80em)');
+  // console.log({isTiny, isSmall, isMedium, isLarge});
   return (
     <div
       data-widget="lightbox-container"

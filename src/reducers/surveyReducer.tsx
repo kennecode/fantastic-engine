@@ -132,6 +132,7 @@ export const surveyReducer = (
 
     case 'save':
       const changedData = { ...state.data, ...action.data };
+      console.log(changedData);
       saveToLocalStorage(state.storage_key, changedData);
       return { ...state, data: changedData };
 
