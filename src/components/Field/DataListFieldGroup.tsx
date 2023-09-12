@@ -8,30 +8,14 @@ import {
 export interface DataListFieldGroupProps extends DataListFieldProps {
   label: string;
   description?: string;
-  type: string; // Input type e.g., "text", "number", "password", etc.
-  placeholder?: string;
-  autofocus?: boolean;
-  value?: string;
-  onChange?: (e: any) => void;
-  onBlur?: (e: any) => void;
-  onFocus?: (e: any) => void;
 }
 
 export const DataListFieldGroup = ({
   name,
   label,
   description,
-  type,
-  placeholder,
-  options = [],
-  autofocus = false,
-  value = '',
-  required = false,
   hasError = false,
-  pattern,
-  onChange = () => {},
-  onBlur = () => {},
-  onFocus = () => {},
+  ...restProps
 }: DataListFieldGroupProps): any => {
   return (
     <Field
@@ -40,20 +24,7 @@ export const DataListFieldGroup = ({
       description={description}
       hasError={hasError}
     >
-      <DataListField
-        type={type}
-        id={name}
-        name={name}
-        options={options}
-        placeholder={placeholder}
-        required={required}
-        pattern={pattern}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        autofocus={autofocus}
-        value={value}
-      />
+      <DataListField {...restProps} id={name} name={name} />
     </Field>
   );
 };

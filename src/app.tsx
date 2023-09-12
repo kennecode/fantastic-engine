@@ -1,7 +1,6 @@
 import React, { useReducer } from 'preact/compat';
 import { surveyReducer, initialSurveyState } from './reducers/surveyReducer';
 import { Lightbox } from 'src/components/Lightbox';
-import { useKeyup } from 'src/hooks/useKeyup';
 import { Attention } from 'src/components/Attention';
 import { Splash } from 'src/components/Splash';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
@@ -215,12 +214,6 @@ export default function App({ openText, splash, form }: AppProps) {
       type: 'previous',
     });
   };
-
-  useKeyup({
-    Escape: () => {
-      close();
-    },
-  });
 
   const FieldComponents: any = {
     checkbox: CheckboxFieldGroup,
