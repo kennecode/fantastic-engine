@@ -12,7 +12,7 @@ export const FormActions = (props: FormActionsProps) => {
 interface FormButtonProps {
   children: React.ReactNode;
   onClick?: (e: any) => void;
-  type?: 'submit' | 'reset' | 'button'; // standard HTML button types
+  type?: 'submit' | 'reset' | 'button' | 'link'; // standard HTML button types
 }
 
 export const FormButton = (props: FormButtonProps) => {
@@ -22,6 +22,13 @@ export const FormButton = (props: FormButtonProps) => {
       onClick(e);
     }
   };
+  if (type === 'link') {
+    return (
+      <a href="#" onClick={handleClick}>
+        {props.children}
+      </a>
+    );
+  }
   return (
     <button
       type={type}

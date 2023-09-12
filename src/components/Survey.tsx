@@ -1,5 +1,6 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
+import { FormButton } from 'src/components/Form';
 
 interface SurveyQuestionProps {
   children: React.ReactNode | string;
@@ -38,17 +39,25 @@ export const SurveyQuestion = (props: SurveyQuestionProps) => {
       <>
         <ToggleVisibility open={hasPrevious}>
           <div>
-            <button type="button" onClick={onHandlePrevious}>
-              Previous
-            </button>
+            <a
+              href="#"
+              onClick={onHandlePrevious}
+              style={{
+                textDecoration: 'none',
+                color: '#999',
+                fontWeight: 'bold',
+              }}
+            >
+              &#8249;
+            </a>
           </div>
         </ToggleVisibility>
         <div>{children}</div>
         <ToggleVisibility open={hasNext}>
           <div>
-            <button type="button" onClick={onHandleNext}>
+            <FormButton type="button" onClick={onHandleNext}>
               Next
-            </button>
+            </FormButton>
           </div>
         </ToggleVisibility>
       </>
@@ -62,7 +71,6 @@ interface SurveyProps {
 export const Survey = (props: SurveyProps) => {
   return (
     <>
-      <div>Survey</div>
       <div>{props.children}</div>
     </>
   );

@@ -1,5 +1,6 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
+import { FormButton } from 'src/components/Form';
 
 const SplashHeadline = (props: any) => <h1>{props.children}</h1>;
 
@@ -13,7 +14,7 @@ const SplashButton = (props: any) => {
   const { children, onContinue } = props;
   return (
     <div>
-      <button onClick={() => onContinue()}>{children}</button>
+      <FormButton onClick={() => onContinue()}>{children}</FormButton>
     </div>
   );
 };

@@ -49,9 +49,14 @@ interface AppProps {
   form: Form;
 }
 
-export default function App(props: AppProps) {
-  const { openText, splash } = props;
-  const { form } = props;
+const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+
+const CHECKBOX_INPUTS = ['checkbox', 'radio'];
+const DATALIST_INPUTS = ['select', 'datalist'];
+const TEXT_INPUTS = ['text', 'email', 'password', 'tel'];
+const TEXTAREA_INPUTS = ['textarea'];
+
+export default function App({ openText, splash, form }: AppProps) {
   const { fields } = form;
   const [survey, dispatchSurvey] = useReducer(surveyReducer, {
     ...initialSurveyState,
@@ -60,8 +65,8 @@ export default function App(props: AppProps) {
     },
   });
 
-  if (survey?.fieldCount === null && props.form?.fields?.length) {
-    const fields = props.form.fields.map((f) => {
+  if (survey?.fieldCount === null && form?.fields?.length) {
+    const fields = form.fields.map((f) => {
       return {
         name: f.name,
         required: f?.attributes?.required || false,
@@ -99,6 +104,11 @@ export default function App(props: AppProps) {
 
   const submitForm = async (e: any) => {
     try {
+      const hasError = handleValidation();
+      if (hasError) {
+        return false;
+      }
+
       dispatchSurvey({
         type: 'posting',
       });
@@ -118,7 +128,7 @@ export default function App(props: AppProps) {
         },
         new FormData()
       );
-      const response = await fetch(action, {
+      await fetch(action, {
         body: formData,
         method: method,
       });
@@ -130,7 +140,11 @@ export default function App(props: AppProps) {
         type: 'showConfirmation',
       });
     } catch (error) {
-      console.log(error);
+      dispatchSurvey({
+        type: 'hasError',
+        errorMessage:
+          'Uh oh, we had trouble saving your details. Give us a moment and try again.',
+      });
     }
   };
 
@@ -145,42 +159,44 @@ export default function App(props: AppProps) {
   const handleValidation = () => {
     const { name, type, attributes = {} } = fields[survey.step];
     const { required, pattern } = attributes;
-    console.log(!survey.data[name] || !survey.data[name].length);
+
+    const value = survey.data[name];
+
+    // Check if value is missing or empty
     if (
       required &&
-      !survey.data[name] &&
-      (typeof survey.data[name] !== 'string' || !survey.data[name].length)
+      (!value || (typeof value === 'string' && value.trim() === ''))
     ) {
       dispatchSurveyError(`Please enter ${name}`, name);
       return true;
     }
-    if (required && typeof survey.data[name] === 'object') {
-      const optionSelected = Object.values(survey.data[name]).filter(
-        (v) => v === true
-      );
-      console.log(optionSelected);
-      if (!optionSelected.length) {
-        dispatchSurveyError(`Please enter ${name}`, name);
-        return true;
-      }
+
+    // Check for required selections in object type data (like checkboxes)
+    if (
+      required &&
+      typeof value === 'object' &&
+      !Object.values(value).some((v) => v)
+    ) {
+      dispatchSurveyError(`Please select an option for ${name}`, name);
+      return true;
     }
 
-    const value = survey.data[name];
+    // Check against provided pattern
     if (pattern && !value?.match(pattern)) {
       dispatchSurveyError(`Please correct the ${name} field`, name);
       return true;
     }
-    if (
-      type === 'email' &&
-      !value.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)
-    ) {
-      dispatchSurveyError(`Please correct the ${name} field`, name);
+
+    // Specific validation for email type
+    if (type === 'email' && !value.match(EMAIL_REGEX)) {
+      dispatchSurveyError(`Please provide a valid email for ${name}`, name);
       return true;
     }
+
     return false;
   };
 
-  const handleNext = (e: any) => {
+  const gotoNextQuestion = (e: any) => {
     const { name } = fields[survey.step];
     const hasError = handleValidation();
     if (!hasError) {
@@ -194,29 +210,29 @@ export default function App(props: AppProps) {
     }
   };
 
-  const handlePrevious = (e: any) => {
-    // @TODO Decide if going to the previous step with an invalid field should be ok
+  const gotoPreviousQuestion = (e: any) => {
     dispatchSurvey({
       type: 'previous',
     });
   };
-
-  const resetForm = (e: any) => {
-    dispatchSurvey({
-      type: 'reset',
-    });
-  };
-
-  const checkboxInputs = ['checkbox', 'radio'];
-  const dataListInputs = ['select', 'datalist'];
-  const textInputs = ['text', 'email', 'password', 'tel'];
-  const textareaInputs = ['textarea'];
 
   useKeyup({
     Escape: () => {
       close();
     },
   });
+
+  const FieldComponents: any = {
+    checkbox: CheckboxFieldGroup,
+    radio: CheckboxFieldGroup,
+    select: DataListFieldGroup,
+    datalist: DataListFieldGroup,
+    text: TextFieldGroup,
+    email: TextFieldGroup,
+    password: TextFieldGroup,
+    tel: TextFieldGroup,
+    textarea: TextareaFieldGroup,
+  };
 
   return (
     <>
@@ -247,134 +263,54 @@ export default function App(props: AppProps) {
               errorMessage={survey.errorMessage}
             >
               <Survey>
-                {props?.form?.fields?.map((field, i) => {
-                  const attributes = field.attributes || {};
-                  if (checkboxInputs.includes(field.type)) {
+                {form?.fields?.map((field, i) => {
+                  const FieldComponent = FieldComponents[field.type];
+
+                  if (!FieldComponent) {
                     return (
                       <SurveyQuestion
                         key={`question${i}`}
                         open={survey.step === i}
                         hasNext={survey.hasNext}
                         hasPrevious={survey.hasPrevious}
-                        onNext={handleNext}
-                        onPrevious={handlePrevious}
+                        onNext={gotoNextQuestion}
+                        onPrevious={gotoPreviousQuestion}
                       >
-                        <CheckboxFieldGroup
-                          name={field.name}
-                          label={field.label}
-                          description={field.description}
-                          type={field.type}
-                          onChange={captureFormData}
-                          value={survey.data[field.name]}
-                          {...attributes}
-                          options={field.options}
-                          hasError={
-                            !survey.fieldErrors ||
-                            survey.fieldErrors[field.name] ||
-                            false
-                          }
-                        />
-                      </SurveyQuestion>
-                    );
-                  } else if (dataListInputs.includes(field.type)) {
-                    return (
-                      <SurveyQuestion
-                        key={`question${i}`}
-                        open={survey.step === i}
-                        hasNext={survey.hasNext}
-                        hasPrevious={survey.hasPrevious}
-                        onNext={handleNext}
-                        onPrevious={handlePrevious}
-                      >
-                        <DataListFieldGroup
-                          name={field.name}
-                          label={field.label}
-                          description={field.description}
-                          type={field.type}
-                          onChange={captureFormData}
-                          value={survey.data[field.name]}
-                          {...attributes}
-                          options={field.options}
-                          hasError={
-                            !survey.fieldErrors ||
-                            survey.fieldErrors[field.name] ||
-                            false
-                          }
-                        />
-                      </SurveyQuestion>
-                    );
-                  } else if (textInputs.includes(field.type)) {
-                    return (
-                      <SurveyQuestion
-                        key={`question${i}`}
-                        open={survey.step === i}
-                        hasNext={survey.hasNext}
-                        hasPrevious={survey.hasPrevious}
-                        onNext={handleNext}
-                        onPrevious={handlePrevious}
-                      >
-                        <TextFieldGroup
-                          name={field.name}
-                          label={field.label}
-                          description={field.description}
-                          type={field.type}
-                          autofocus={survey.step === i}
-                          onChange={captureFormData}
-                          value={survey.data[field.name]}
-                          hasError={
-                            !survey.fieldErrors ||
-                            survey.fieldErrors[field.name] ||
-                            false
-                          }
-                          {...attributes}
-                        />
-                      </SurveyQuestion>
-                    );
-                  } else if (textareaInputs.includes(field.type)) {
-                    return (
-                      <SurveyQuestion
-                        key={`question${i}`}
-                        open={survey.step === i}
-                        hasNext={survey.hasNext}
-                        hasPrevious={survey.hasPrevious}
-                        onNext={handleNext}
-                        onPrevious={handlePrevious}
-                      >
-                        <TextareaFieldGroup
-                          name={field.name}
-                          label={field.label}
-                          description={field.description}
-                          autofocus={survey.step === i}
-                          onChange={captureFormData}
-                          value={survey.data[field.name]}
-                          hasError={
-                            !survey.fieldErrors ||
-                            survey.fieldErrors[field.name] ||
-                            false
-                          }
-                          {...attributes}
-                        />
-                      </SurveyQuestion>
-                    );
-                  } else {
-                    return (
-                      <SurveyQuestion
-                        key={`question${i}`}
-                        open={survey.step === i}
-                        hasNext={survey.hasNext}
-                        hasPrevious={survey.hasPrevious}
-                        onNext={handleNext}
-                        onPrevious={handlePrevious}
-                      >
-                        <span>Control is not support</span>
+                        <span>Control is not supported</span>
                       </SurveyQuestion>
                     );
                   }
+
+                  return (
+                    <SurveyQuestion
+                      key={`question${i}`}
+                      open={survey.step === i}
+                      hasNext={survey.hasNext}
+                      hasPrevious={survey.hasPrevious}
+                      onNext={gotoNextQuestion}
+                      onPrevious={gotoPreviousQuestion}
+                    >
+                      <FieldComponent
+                        name={field.name}
+                        label={field.label}
+                        description={field.description}
+                        type={field.type}
+                        onChange={captureFormData}
+                        value={survey.data[field.name]}
+                        hasError={
+                          !survey.fieldErrors ||
+                          survey.fieldErrors[field.name] ||
+                          false
+                        }
+                        {...(field.attributes || {})}
+                        options={field.options}
+                      />
+                    </SurveyQuestion>
+                  );
                 })}
               </Survey>
               <ToggleVisibility open={survey.step + 1 === survey.fieldCount}>
                 <FormActions>
-                  {/*<FormButton type="button" onClick={resetForm}>Reset</FormButton>*/}
                   <FormButton>Submit</FormButton>
                 </FormActions>
               </ToggleVisibility>

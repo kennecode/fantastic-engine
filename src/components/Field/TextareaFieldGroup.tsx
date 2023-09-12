@@ -37,18 +37,20 @@ export const TextareaFieldGroup = ({
       description={description}
       hasError={hasError}
     >
-      <TextareaField
-        id={name}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        onChange={onChange}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        autofocus={autofocus}
-        value={value}
-        hasError={hasError}
-      />
+      <div>
+        <TextareaField
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          required={required}
+          onChange={onChange}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          autofocus={autofocus}
+          value={value}
+          hasError={hasError}
+        />
+      </div>
     </Field>
   );
 };

@@ -110,6 +110,7 @@ export const surveyReducer = (
         step: state.step + 1,
         hasNext: nextHasNext,
         hasPrevious: nextHasPrevious,
+        errorMessage: undefined,
       };
 
     case 'previous':
@@ -128,11 +129,11 @@ export const surveyReducer = (
         step: state.step - 1,
         hasNext: previousHasNext,
         hasPrevious: previousHasPrevious,
+        errorMessage: undefined,
       };
 
     case 'save':
       const changedData = { ...state.data, ...action.data };
-      console.log(changedData);
       saveToLocalStorage(state.storage_key, changedData);
       return { ...state, data: changedData };
 
@@ -224,19 +225,6 @@ export const surveyReducer = (
             ...state.fieldErrors,
             [field as string]: 'Please enter this',
           },
-        },
-      };
-
-    case 'resetError':
-      return {
-        ...state,
-        ...{
-          hasError: false,
-          errorMessage: undefined,
-          fieldErrors: removeParameterFromError(
-            action?.field,
-            state?.fieldErrors
-          ),
         },
       };
 
