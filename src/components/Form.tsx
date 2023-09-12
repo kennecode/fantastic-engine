@@ -9,40 +9,59 @@ export const FormActions = (props: FormActionsProps) => {
   return <div>{props.children}</div>;
 };
 
+const STYLED_BUTTON_CSS = {
+  margin: 5,
+  padding: '10px 20px',
+  backgroundColor: '#090909',
+  color: '#efefef',
+  border: 'none',
+};
+
+interface LinkButtonProps {
+  children: React.ReactNode;
+  onClick: (e: any) => void;
+}
+
+const LinkButton = ({ children, onClick }: LinkButtonProps) => (
+  <a href="#" onClick={onClick}>
+    {children}
+  </a>
+);
+
+interface StyledButtonProps {
+  type: string;
+  children: React.ReactNode;
+  onClick: (e: any) => void;
+}
+const StyledButton = ({ type, children, onClick }: StyledButtonProps) => (
+  <button type={type} onClick={onClick} style={STYLED_BUTTON_CSS}>
+    {children}
+  </button>
+);
+
 interface FormButtonProps {
   children: React.ReactNode;
   onClick?: (e: any) => void;
   type?: 'submit' | 'reset' | 'button' | 'link'; // standard HTML button types
 }
 
-export const FormButton = (props: FormButtonProps) => {
-  const { onClick, type = 'submit' } = props;
+export const FormButton = ({
+  onClick,
+  type = 'submit',
+  children,
+}: FormButtonProps) => {
   const handleClick = (e: any) => {
-    if (typeof onClick === 'function') {
-      onClick(e);
-    }
+    onClick?.(e);
   };
+
   if (type === 'link') {
-    return (
-      <a href="#" onClick={handleClick}>
-        {props.children}
-      </a>
-    );
+    return <LinkButton onClick={handleClick}>{children}</LinkButton>;
   }
+
   return (
-    <button
-      type={type}
-      onClick={handleClick}
-      style={{
-        margin: 5,
-        padding: '10px 20px',
-        backgroundColor: '#090909',
-        color: '#efefef',
-        border: 'none',
-      }}
-    >
-      {props.children}
-    </button>
+    <StyledButton type={type} onClick={handleClick}>
+      {children}
+    </StyledButton>
   );
 };
 
