@@ -1,10 +1,10 @@
 import { useEffect } from 'preact/compat';
 
 interface useAutofocusProps {
-  parameter: any;
+  parameter: unknown;
 }
 
-export const useAutofocus = (parameter: useAutofocusProps) => {
+export const useAutofocus = (parameter: string) => {
   if (!parameter) return;
   useEffect(() => {
     const input = document.getElementById(parameter as string);

@@ -151,16 +151,16 @@ export default function App({ openText, splash, form }: AppProps) {
     });
   };
 
-  const isEmptyString = (value) =>
+  const isEmptyString = (value: any) =>
     typeof value === 'string' && value.trim() === '';
 
-  const isObjectEmpty = (value) =>
+  const isObjectEmpty = (value: any) =>
     typeof value === 'object' && !Object.values(value).some((v) => v);
 
-  const doesNotMatchPattern = (pattern, value) =>
+  const doesNotMatchPattern = (pattern: any, value: any) =>
     pattern && !value?.match(pattern);
 
-  const isInvalidEmail = (type, value) =>
+  const isInvalidEmail = (type: any, value: any) =>
     type === 'email' && !value.match(EMAIL_REGEX);
 
   const handleValidation = () => {
@@ -218,7 +218,8 @@ export default function App({ openText, splash, form }: AppProps) {
     textarea: TextareaFieldGroup,
   };
 
-  useAutofocus(fields[survey.step]?.name);
+  const { name } = fields[survey.step];
+  useAutofocus(name);
 
   return (
     <>
