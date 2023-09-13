@@ -1,6 +1,28 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
 
+const containerStyles = {
+  backgroundColor: 'rgba(0, 0, 0, .85)',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  display: 'flex',
+  alignItems: 'center',
+};
+
+const bodyStyles = {
+  background: '#fff',
+  width: '50%',
+  minHeight: 75,
+  minWidth: 380,
+  maxHeight: '100vh',
+  margin: 'auto',
+  padding: 15,
+  overflowY: 'auto',
+};
+
 interface LightboxContainerProps {
   onClose: () => void;
   children: React.ReactNode;
@@ -17,16 +39,7 @@ const LightboxContainer = ({ onClose, children }: LightboxContainerProps) => {
   return (
     <div
       data-widget={dataAttributeValue}
-      style={{
-        backgroundColor: 'rgba(0, 0, 0, .85)',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: 'flex',
-        alignItems: 'center',
-      }}
+      style={containerStyles}
       onClick={onClickToClose}
     >
       {children}
@@ -39,22 +52,7 @@ interface LightboxBodyProps {
 }
 
 const LightboxBody = ({ children }: LightboxBodyProps) => {
-  return (
-    <div
-      style={{
-        background: '#fff',
-        width: '50%',
-        minHeight: 75,
-        minWidth: 380,
-        maxHeight: '100vh',
-        margin: 'auto',
-        padding: 15,
-        overflowY: 'auto',
-      }}
-    >
-      {children}
-    </div>
-  );
+  return <div style={bodyStyles}>{children}</div>;
 };
 
 interface LightboxProps {
