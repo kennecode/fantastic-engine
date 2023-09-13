@@ -1,23 +1,22 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
-import { useMediaQueries } from 'src/hooks/useMediaQueries';
 
-const LightboxContainer = (props: any) => {
-  const dataAttributeValue: string = 'lightbox-container';
+interface LightboxContainerProps {
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+const LightboxContainer = ({ onClose, children }: LightboxContainerProps) => {
+  const dataAttributeValue = 'lightbox-container';
   const onClickToClose = (e: any) => {
     const target = e.target.getAttribute('data-widget');
-    if (target === dataAttributeValue && typeof props.onClose === 'function')
-      props.onClose();
+    if (target === dataAttributeValue && typeof onClose === 'function')
+      onClose();
   };
 
-  const isTiny = useMediaQueries('only screen and (min-width: 40em)');
-  const isSmall = useMediaQueries('only screen and (min-width: 48em)');
-  const isMedium = useMediaQueries('only screen and (min-width: 64em)');
-  const isLarge = useMediaQueries('only screen and (min-width: 80em)');
-  // console.log({isTiny, isSmall, isMedium, isLarge});
   return (
     <div
-      data-widget="lightbox-container"
+      data-widget={dataAttributeValue}
       style={{
         backgroundColor: 'rgba(0, 0, 0, .85)',
         position: 'fixed',
@@ -30,12 +29,16 @@ const LightboxContainer = (props: any) => {
       }}
       onClick={onClickToClose}
     >
-      {props.children}
+      {children}
     </div>
   );
 };
 
-const LightboxBody = (props: any) => {
+interface LightboxBodyProps {
+  children: React.ReactNode;
+}
+
+const LightboxBody = ({ children }: LightboxBodyProps) => {
   return (
     <div
       style={{
@@ -49,13 +52,18 @@ const LightboxBody = (props: any) => {
         overflowY: 'auto',
       }}
     >
-      {props.children}
+      {children}
     </div>
   );
 };
 
-export const Lightbox = (props: any) => {
-  const { open } = props;
+interface LightboxProps {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+export const Lightbox = ({ open, onClose, children }: LightboxProps) => {
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -66,9 +74,9 @@ export const Lightbox = (props: any) => {
   }, [open]);
 
   return (
-    <ToggleVisibility {...props}>
-      <LightboxContainer onClose={props.onClose}>
-        <LightboxBody>{props.children}</LightboxBody>
+    <ToggleVisibility open={open}>
+      <LightboxContainer onClose={onClose}>
+        <LightboxBody>{children}</LightboxBody>
       </LightboxContainer>
     </ToggleVisibility>
   );

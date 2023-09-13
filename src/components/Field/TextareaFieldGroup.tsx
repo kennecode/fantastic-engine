@@ -9,26 +9,14 @@ export interface TextareaFieldGroup extends TextareaFieldProps {
   name: string;
   label: string;
   description?: string;
-  placeholder?: string;
-  autofocus?: boolean;
-  value?: string;
-  onChange?: (e: any) => void;
-  onBlur?: (e: any) => void;
-  onFocus?: (e: any) => void;
 }
 
 export const TextareaFieldGroup = ({
   name,
   label,
   description,
-  placeholder,
-  required = false,
-  autofocus = false,
   hasError = false,
-  value = '',
-  onChange = () => {},
-  onBlur = () => {},
-  onFocus = () => {},
+  ...restProps
 }: TextareaFieldGroup) => {
   return (
     <Field
@@ -39,15 +27,9 @@ export const TextareaFieldGroup = ({
     >
       <div>
         <TextareaField
+          {...restProps}
           id={name}
           name={name}
-          placeholder={placeholder}
-          required={required}
-          onChange={onChange}
-          onBlur={onBlur}
-          onFocus={onFocus}
-          autofocus={autofocus}
-          value={value}
           hasError={hasError}
         />
       </div>
