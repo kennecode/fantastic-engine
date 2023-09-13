@@ -13,6 +13,7 @@ import {
 import { Form, FormActions, FormButton } from 'src/components/Form';
 import { Confirmation } from 'src/components/Confirmation';
 import { CheckboxFieldGroup } from 'src/components/Field/CheckboxFieldGroup';
+import { useAutofocus } from 'src/hooks/useAutofocus';
 
 interface FieldAttributes {
   required?: boolean | undefined | null;
@@ -217,6 +218,8 @@ export default function App({ openText, splash, form }: AppProps) {
     textarea: TextareaFieldGroup,
   };
 
+  useAutofocus(fields[survey.step]?.name);
+
   return (
     <>
       <Attention
@@ -280,6 +283,7 @@ export default function App({ openText, splash, form }: AppProps) {
                         type={field.type}
                         onChange={captureFormData}
                         value={survey.data[field.name]}
+                        autofocus={survey.step === i}
                         hasError={
                           !survey.fieldErrors ||
                           survey.fieldErrors[field.name] ||

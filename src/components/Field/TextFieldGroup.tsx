@@ -47,7 +47,7 @@ export const TextFieldGroup = ({
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        autofocus={autofocus}
+        autoFocus={autofocus}
         value={value}
       />
     </Field>
