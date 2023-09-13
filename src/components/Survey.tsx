@@ -11,16 +11,38 @@ interface SurveyQuestionProps {
   open: boolean;
 }
 
-export const SurveyQuestion = (props: SurveyQuestionProps) => {
-  const {
-    open = true,
-    children,
-    onNext,
-    onPrevious,
-    hasNext = false,
-    hasPrevious = false,
-  } = props;
+const PreviousLink = ({ onHandlePrevious }: any) => (
+  <div>
+    <a
+      href="#"
+      onClick={onHandlePrevious}
+      style={{
+        textDecoration: 'none',
+        color: '#999',
+        fontWeight: 'bold',
+      }}
+    >
+      &#8249;
+    </a>
+  </div>
+);
 
+const NextButton = ({ onHandleNext }: any) => (
+  <div>
+    <FormButton type="button" onClick={onHandleNext}>
+      Next
+    </FormButton>
+  </div>
+);
+
+export const SurveyQuestion = ({
+  open = true,
+  children,
+  onNext,
+  onPrevious,
+  hasNext = false,
+  hasPrevious = false,
+}: SurveyQuestionProps) => {
   const onHandleNext = (e: any) => {
     e.preventDefault();
     if (typeof onNext === 'function') {
@@ -37,29 +59,9 @@ export const SurveyQuestion = (props: SurveyQuestionProps) => {
   return (
     <ToggleVisibility open={open} useCss={true}>
       <>
-        <ToggleVisibility open={hasPrevious}>
-          <div>
-            <a
-              href="#"
-              onClick={onHandlePrevious}
-              style={{
-                textDecoration: 'none',
-                color: '#999',
-                fontWeight: 'bold',
-              }}
-            >
-              &#8249;
-            </a>
-          </div>
-        </ToggleVisibility>
+        {hasPrevious && <PreviousLink onHandlePrevious={onHandlePrevious} />}
         <div>{children}</div>
-        <ToggleVisibility open={hasNext}>
-          <div>
-            <FormButton type="button" onClick={onHandleNext}>
-              Next
-            </FormButton>
-          </div>
-        </ToggleVisibility>
+        {hasNext && <NextButton onHandleNext={onHandleNext} />}
       </>
     </ToggleVisibility>
   );
@@ -69,9 +71,5 @@ interface SurveyProps {
   children: React.ReactNode;
 }
 export const Survey = (props: SurveyProps) => {
-  return (
-    <>
-      <div>{props.children}</div>
-    </>
-  );
+  return <div>{props.children}</div>;
 };
