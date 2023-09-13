@@ -217,57 +217,6 @@ export default function App({ openText, splash, form }: AppProps) {
     textarea: TextareaFieldGroup,
   };
 
-  const RenderField = ({
-    field,
-    index,
-    survey,
-    captureFormData,
-    gotoNextQuestion,
-    gotoPreviousQuestion,
-  }: any) => {
-    const FieldComponent = FieldComponents[field.type];
-
-    if (!FieldComponent) {
-      return (
-        <SurveyQuestion
-          key={`question${index}`}
-          open={survey.step === index}
-          hasNext={survey.hasNext}
-          hasPrevious={survey.hasPrevious}
-          onNext={gotoNextQuestion}
-          onPrevious={gotoPreviousQuestion}
-        >
-          <span>Control is not supported</span>
-        </SurveyQuestion>
-      );
-    }
-
-    return (
-      <SurveyQuestion
-        key={`question${index}`}
-        open={survey.step === index}
-        hasNext={survey.hasNext}
-        hasPrevious={survey.hasPrevious}
-        onNext={gotoNextQuestion}
-        onPrevious={gotoPreviousQuestion}
-      >
-        <FieldComponent
-          name={field.name}
-          label={field.label}
-          description={field.description}
-          type={field.type}
-          onChange={captureFormData}
-          value={survey.data[field.name]}
-          hasError={
-            !survey.fieldErrors || survey.fieldErrors[field.name] || false
-          }
-          {...(field.attributes || {})}
-          options={field.options}
-        />
-      </SurveyQuestion>
-    );
-  };
-
   return (
     <>
       <Attention
@@ -297,16 +246,51 @@ export default function App({ openText, splash, form }: AppProps) {
               errorMessage={survey.errorMessage}
             >
               <Survey>
-                {form?.fields?.map((field, i) => (
-                  <RenderField
-                    field={field}
-                    index={i}
-                    survey={survey}
-                    captureFormData={captureFormData}
-                    gotoNextQuestion={gotoNextQuestion}
-                    gotoPreviousQuestion={gotoPreviousQuestion}
-                  />
-                ))}
+                {form?.fields?.map((field, i) => {
+                  const FieldComponent = FieldComponents[field.type];
+
+                  if (!FieldComponent) {
+                    return (
+                      <SurveyQuestion
+                        key={`question${i}`}
+                        open={survey.step === i}
+                        hasNext={survey.hasNext}
+                        hasPrevious={survey.hasPrevious}
+                        onNext={gotoNextQuestion}
+                        onPrevious={gotoPreviousQuestion}
+                      >
+                        <span>Control is not supported</span>
+                      </SurveyQuestion>
+                    );
+                  }
+
+                  return (
+                    <SurveyQuestion
+                      key={`question${i}`}
+                      open={survey.step === i}
+                      hasNext={survey.hasNext}
+                      hasPrevious={survey.hasPrevious}
+                      onNext={gotoNextQuestion}
+                      onPrevious={gotoPreviousQuestion}
+                    >
+                      <FieldComponent
+                        name={field.name}
+                        label={field.label}
+                        description={field.description}
+                        type={field.type}
+                        onChange={captureFormData}
+                        value={survey.data[field.name]}
+                        hasError={
+                          !survey.fieldErrors ||
+                          survey.fieldErrors[field.name] ||
+                          false
+                        }
+                        {...(field.attributes || {})}
+                        options={field.options}
+                      />
+                    </SurveyQuestion>
+                  );
+                })}
               </Survey>
               <ToggleVisibility open={survey.step + 1 === survey.fieldCount}>
                 <FormActions>
