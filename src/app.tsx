@@ -150,39 +150,34 @@ export default function App({ openText, splash, form }: AppProps) {
     });
   };
 
+  const isEmptyString = (value) =>
+    typeof value === 'string' && value.trim() === '';
+
+  const isObjectEmpty = (value) =>
+    typeof value === 'object' && !Object.values(value).some((v) => v);
+
+  const doesNotMatchPattern = (pattern, value) =>
+    pattern && !value?.match(pattern);
+
+  const isInvalidEmail = (type, value) =>
+    type === 'email' && !value.match(EMAIL_REGEX);
+
   const handleValidation = () => {
     const { name, type, attributes = {} } = fields[survey.step];
     const { required, pattern } = attributes;
-
     const value = survey.data[name];
 
-    // Check if value is missing or empty
-    if (
-      required &&
-      (!value || (typeof value === 'string' && value.trim() === ''))
-    ) {
+    if (required && (isEmptyString(value) || isObjectEmpty(value))) {
       dispatchSurveyError(`Please enter ${name}`, name);
       return true;
     }
 
-    // Check for required selections in object type data (like checkboxes)
-    if (
-      required &&
-      typeof value === 'object' &&
-      !Object.values(value).some((v) => v)
-    ) {
-      dispatchSurveyError(`Please select an option for ${name}`, name);
-      return true;
-    }
-
-    // Check against provided pattern
-    if (pattern && !value?.match(pattern)) {
+    if (doesNotMatchPattern(pattern, value)) {
       dispatchSurveyError(`Please correct the ${name} field`, name);
       return true;
     }
 
-    // Specific validation for email type
-    if (type === 'email' && !value.match(EMAIL_REGEX)) {
+    if (isInvalidEmail(type, value)) {
       dispatchSurveyError(`Please provide a valid email for ${name}`, name);
       return true;
     }
