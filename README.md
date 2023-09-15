@@ -7,6 +7,8 @@ so generic sounding. Third, the name doesn't matter while working through this p
 
 If you want to read more about the inception of this project, [visit my blog about it](https://kennedy.jp/web-widgets/)
 
+Milestones are being reported on [IndieHackers](https://www.indiehackers.com/product/fantastic-engine)
+
 ## Get up and running
 
 ### Running the project
