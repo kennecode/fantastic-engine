@@ -7,6 +7,12 @@ so generic sounding. Third, the name doesn't matter while working through this p
 
 If you want to read more about the inception of this project, [visit my blog about it](https://kennedy.jp/web-widgets/)
 
+## Demo
+
+[Play around with a demo.](https://kennecode.github.io/fantastic-engine/)
+
+If you have an idea or request, submit an issue on GitHub and let's collaborate.
+
 ## Get up and running
 
 ### Running the project
