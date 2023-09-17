@@ -10,6 +10,7 @@ export interface CheckboxFieldGroupProps extends CheckboxFieldProps {
 }
 
 export const CheckboxFieldGroup = ({
+  className = 'control',
   name,
   label,
   description,
@@ -24,6 +25,7 @@ export const CheckboxFieldGroup = ({
 }: CheckboxFieldGroupProps): any => {
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}

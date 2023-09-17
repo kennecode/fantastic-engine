@@ -19,39 +19,60 @@
       crossorigin="anonymous"
     />
     <style>
-      /*form {*/
-      /*    label: table;*/
-      /*}*/
+      body {
+        padding: 15px 10px;
+      }
+      form {
+        label: table;
+      }
 
-      /*div.form-example {*/
-      /*    label: table-row;*/
-      /*}*/
+      div.form-example {
+        label: table-row;
+      }
 
-      /*label,*/
-      /*input {*/
-      /*    label: table-cell;*/
-      /*    margin-bottom: 10px;*/
-      /*}*/
+      label,
+      input {
+        label: table-cell;
+        margin-bottom: 10px;
+      }
 
-      /*label {*/
-      /*    padding-right: 10px;*/
-      /*}*/
+      label {
+        padding-right: 10px;
+      }
 
-      /*.focus {*/
-      /*    border-color: darkblue;*/
-      /*}*/
+      .focus {
+        border-color: darkblue;
+      }
 
-      /*.dirty {*/
-      /*    border-color: darkblue;*/
-      /*}*/
+      .dirty {
+        border-color: darkblue;
+      }
 
-      /*.error {*/
-      /*    border: 2px solid red;*/
-      /*}*/
+      .error {
+        border: 2px solid red;
+      }
 
-      /*.valid {*/
-      /*    border: 1px solid green;*/
-      /*}*/
+      .valid {
+        border: 1px solid green;
+      }
+
+      .open-cta,
+      .survey .btn,
+      .survey .btn-continue {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: #111111;
+        color: #efefef;
+      }
+      .survey .lightbox-body {
+        padding: 15px 20px;
+        width: 60%;
+      }
+      @media only screen and (max-width: 768px) {
+        .survey .lightbox-body {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -81,7 +102,15 @@
           <script type="text/props">
             {
                 "multistep": true,
-                "openText": "Register for the event in 60 seconds",
+                "attributes": {
+                    "className": "survey"
+                },
+                "open": {
+                    "text": "Register for the event in 60 seconds",
+                    "attributes": {
+                        "className": "open-cta"
+                    }
+                },
                 "splash": {
                     "eyebrow": "Join the Solar Revolution",
                     "headline": "Shine a light on your solar experience in just 60 seconds",
@@ -99,7 +128,6 @@
                             "label": "What topics are you interested in?",
                             "type": "checkbox",
                             "attributes": {
-                                "className": "topics",
                                 "required": true,
                                 "aria-label": "What are you interested in"
                             },
@@ -123,7 +151,6 @@
                             "label": "What is your first name?",
                             "type": "text",
                             "attributes": {
-                                "className": "topics",
                                 "required": true,
                                 "placeholder": "Enter your name",
                                 "aria-label": "Enter your name"

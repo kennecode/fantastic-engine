@@ -2,19 +2,27 @@ import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
 import { FormButton } from 'src/components/Form';
 
-const SplashHeadline = (props: any) => <h1>{props.children}</h1>;
+const SplashHeadline = (props: any) => (
+  <h1 className="splash-headline">{props.children}</h1>
+);
 
-const SplashSubline = (props: any) => <h2>{props.children}</h2>;
+const SplashSubline = (props: any) => (
+  <h2 className="splash-subline">{props.children}</h2>
+);
 
-const SplashEyebrow = (props: any) => <h3>{props.children}</h3>;
+const SplashEyebrow = (props: any) => (
+  <h3 className="splash-eyebrow">{props.children}</h3>
+);
 
 const SplashBody = (props: any) => <p>{props.children}</p>;
 
 const SplashButton = (props: any) => {
-  const { children, onContinue } = props;
+  const { children, onContinue, ...rest } = props;
   return (
     <div>
-      <FormButton onClick={() => onContinue()}>{children}</FormButton>
+      <FormButton {...rest} onClick={() => onContinue()}>
+        {children}
+      </FormButton>
     </div>
   );
 };
@@ -26,7 +34,9 @@ export const Splash = (props: any) => {
       <SplashHeadline>{props.headline}</SplashHeadline>
       <SplashSubline>{props.subline}</SplashSubline>
       <SplashBody>{props.body}</SplashBody>
-      <SplashButton onContinue={props.onContinue}>Continue</SplashButton>
+      <SplashButton class="btn btn-continue" onContinue={props.onContinue}>
+        Continue
+      </SplashButton>
     </ToggleVisibility>
   );
 };

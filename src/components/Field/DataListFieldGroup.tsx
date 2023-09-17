@@ -11,6 +11,7 @@ export interface DataListFieldGroupProps extends DataListFieldProps {
 }
 
 export const DataListFieldGroup = ({
+  className = 'control',
   name,
   label,
   description,
@@ -19,6 +20,7 @@ export const DataListFieldGroup = ({
 }: DataListFieldGroupProps): any => {
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}

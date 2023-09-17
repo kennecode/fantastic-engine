@@ -9,21 +9,13 @@ export const FormActions = (props: FormActionsProps) => {
   return <div>{props.children}</div>;
 };
 
-const STYLED_BUTTON_CSS = {
-  margin: 5,
-  padding: '10px 20px',
-  backgroundColor: '#090909',
-  color: '#efefef',
-  border: 'none',
-};
-
 interface LinkButtonProps {
   children: React.ReactNode;
   onClick: (e: any) => void;
 }
 
-const LinkButton = ({ children, onClick }: LinkButtonProps) => (
-  <a href="#" onClick={onClick}>
+const LinkButton = ({ children, onClick, ...rest }: LinkButtonProps) => (
+  <a {...rest} href="#" onClick={onClick}>
     {children}
   </a>
 );
@@ -33,13 +25,19 @@ interface StyledButtonProps {
   children: React.ReactNode;
   onClick: (e: any) => void;
 }
-const StyledButton = ({ type, children, onClick }: StyledButtonProps) => (
-  <button type={type} onClick={onClick} style={STYLED_BUTTON_CSS}>
+const StyledButton = ({
+  type,
+  children,
+  onClick,
+  ...rest
+}: StyledButtonProps) => (
+  <button {...rest} type={type} onClick={onClick}>
     {children}
   </button>
 );
 
 interface FormButtonProps {
+  className?: string;
   children: React.ReactNode;
   onClick?: (e: any) => void;
   type?: 'submit' | 'reset' | 'button' | 'link'; // standard HTML button types
@@ -49,17 +47,22 @@ export const FormButton = ({
   onClick,
   type = 'submit',
   children,
+  ...rest
 }: FormButtonProps) => {
   const handleClick = (e: any) => {
     onClick?.(e);
   };
 
   if (type === 'link') {
-    return <LinkButton onClick={handleClick}>{children}</LinkButton>;
+    return (
+      <LinkButton {...rest} onClick={handleClick}>
+        {children}
+      </LinkButton>
+    );
   }
 
   return (
-    <StyledButton type={type} onClick={handleClick}>
+    <StyledButton {...rest} type={type} onClick={handleClick}>
       {children}
     </StyledButton>
   );
@@ -84,7 +87,7 @@ export const Form = (props: FormProps) => {
     <form onSubmit={handleSubmit}>
       {props.children}
       <ToggleVisibility open={hasError}>
-        <div style={{ color: 'red' }}>{errorMessage}</div>
+        <div className="form-error">{errorMessage}</div>
       </ToggleVisibility>
     </form>
   );

@@ -4,32 +4,34 @@ import { ToggleVisibility } from 'src/components/ToggleVisibility';
 export * from './Field/index';
 
 export interface FieldProps {
+  className?: string;
   label: string;
   labelFor: string;
   description?: string;
   children: React.ReactNode;
   hasError?: boolean;
-  required?: boolean;
 }
 
 export const Field = ({
+  className = 'control',
   label,
   labelFor,
   description,
   children,
   hasError = false,
-  required = false,
 }: FieldProps) => {
   return (
-    <>
-      <label for={labelFor}>{label}</label>
+    <div className={className}>
+      <label className="field-label" for={labelFor}>
+        {label}
+      </label>
       <ToggleVisibility open={!!description}>
-        <div>{description}</div>
+        <div className={'field-description'}>{description}</div>
       </ToggleVisibility>
-      {children}
+      <div className="field-input">{children}</div>
       <ToggleVisibility open={hasError}>
-        <div>Please fill this out</div>
+        <div className="field-error">Please fill this out</div>
       </ToggleVisibility>
-    </>
+    </div>
   );
 };

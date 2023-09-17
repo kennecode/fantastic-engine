@@ -43,15 +43,22 @@ interface SplashProps {
   [key: string]: any;
 }
 
+interface OpenProps {
+  text?: string;
+  attributes?: FieldAttributes;
+}
+
 interface AppProps {
-  openText?: string;
+  open: OpenProps;
   splash?: SplashProps;
+  attributes?: FieldAttributes;
   form: Form;
 }
 
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
-export default function App({ openText, splash, form }: AppProps) {
+export default function App({ open, splash, form, attributes = {} }: AppProps) {
+  const { text, attributes: openAttributes } = open;
   const { fields } = form;
   const [survey, dispatchSurvey] = useReducer(surveyReducer, {
     ...initialSurveyState,
@@ -229,10 +236,11 @@ export default function App({ openText, splash, form }: AppProps) {
             type: 'open',
           })
         }
+        {...openAttributes}
       >
-        {openText || 'Open Survey'}
+        {text || 'Open Survey'}
       </Attention>
-      <Lightbox open={survey.open} onClose={() => close()}>
+      <Lightbox {...attributes} open={survey.open} onClose={() => close()}>
         <Splash
           open={survey.showSplash}
           {...splash}
@@ -299,7 +307,7 @@ export default function App({ openText, splash, form }: AppProps) {
               </Survey>
               <ToggleVisibility open={survey.step + 1 === survey.fieldCount}>
                 <FormActions>
-                  <FormButton>Submit</FormButton>
+                  <FormButton className="btn btn-submit">Submit</FormButton>
                 </FormActions>
               </ToggleVisibility>
             </Form>

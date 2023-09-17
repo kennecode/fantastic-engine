@@ -20,6 +20,7 @@ const PreviousLink = ({ onHandlePrevious }: any) => (
         textDecoration: 'none',
         color: '#999',
         fontWeight: 'bold',
+        fontSize: '1.4rem',
       }}
     >
       &#8249;
@@ -27,9 +28,9 @@ const PreviousLink = ({ onHandlePrevious }: any) => (
   </div>
 );
 
-const NextButton = ({ onHandleNext }: any) => (
+const NextButton = ({ onHandleNext, ...rest }: any) => (
   <div>
-    <FormButton type="button" onClick={onHandleNext}>
+    <FormButton {...rest} type="button" onClick={onHandleNext}>
       Next
     </FormButton>
   </div>
@@ -59,9 +60,16 @@ export const SurveyQuestion = ({
   return (
     <ToggleVisibility open={open} useCss={true}>
       <>
-        {hasPrevious && <PreviousLink onHandlePrevious={onHandlePrevious} />}
+        {hasPrevious && (
+          <PreviousLink
+            className="btn btn-next"
+            onHandlePrevious={onHandlePrevious}
+          />
+        )}
         <div>{children}</div>
-        {hasNext && <NextButton onHandleNext={onHandleNext} />}
+        {hasNext && (
+          <NextButton className="btn btn-next" onHandleNext={onHandleNext} />
+        )}
       </>
     </ToggleVisibility>
   );

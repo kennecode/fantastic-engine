@@ -12,6 +12,7 @@ export interface TextareaFieldGroup extends TextareaFieldProps {
 }
 
 export const TextareaFieldGroup = ({
+  className = 'control',
   name,
   label,
   description,
@@ -20,6 +21,7 @@ export const TextareaFieldGroup = ({
 }: TextareaFieldGroup) => {
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}

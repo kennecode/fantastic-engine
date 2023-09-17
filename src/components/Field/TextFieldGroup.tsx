@@ -3,6 +3,7 @@ import { Field, TextField } from 'src/components/Field';
 import { TextFieldProps } from 'src/components/Field/TextField';
 
 export interface TextFieldGroupProps extends TextFieldProps {
+  className?: string;
   name: string;
   label: string;
   description?: string;
@@ -16,6 +17,7 @@ export interface TextFieldGroupProps extends TextFieldProps {
 }
 
 export const TextFieldGroup = ({
+  className = 'control',
   name,
   label,
   description,
@@ -32,6 +34,7 @@ export const TextFieldGroup = ({
 }: TextFieldGroupProps) => {
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}
