@@ -3,7 +3,6 @@ import { Field, TextField } from 'src/components/Field';
 import { TextFieldProps } from 'src/components/Field/TextField';
 
 export interface TextFieldGroupProps extends TextFieldProps {
-  className?: string;
   name: string;
   label: string;
   description?: string;
@@ -17,7 +16,6 @@ export interface TextFieldGroupProps extends TextFieldProps {
 }
 
 export const TextFieldGroup = ({
-  className = 'control',
   name,
   label,
   description,
@@ -25,13 +23,16 @@ export const TextFieldGroup = ({
   placeholder,
   required = false,
   pattern,
+  containerAttributes = {},
   autofocus = false,
   hasError = false,
   value = '',
   onChange = () => {},
   onBlur = () => {},
   onFocus = () => {},
+  ...rest
 }: TextFieldGroupProps) => {
+  const { className } = containerAttributes;
   return (
     <Field
       className={className}
@@ -39,6 +40,7 @@ export const TextFieldGroup = ({
       label={label}
       description={description}
       hasError={hasError}
+      {...containerAttributes}
     >
       <TextField
         type={type}
@@ -52,6 +54,7 @@ export const TextFieldGroup = ({
         onFocus={onFocus}
         autoFocus={autofocus}
         value={value}
+        {...rest}
       />
     </Field>
   );

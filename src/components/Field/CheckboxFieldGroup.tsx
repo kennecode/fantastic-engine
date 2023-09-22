@@ -10,7 +10,6 @@ export interface CheckboxFieldGroupProps extends CheckboxFieldProps {
 }
 
 export const CheckboxFieldGroup = ({
-  className = 'control',
   name,
   label,
   description,
@@ -19,10 +18,12 @@ export const CheckboxFieldGroup = ({
   value = '',
   hasError = false,
   pattern,
+  containerAttributes = {},
   onChange = () => {},
   onBlur = () => {},
   onFocus = () => {},
 }: CheckboxFieldGroupProps): any => {
+  const { className } = containerAttributes;
   return (
     <Field
       className={className}
@@ -30,6 +31,7 @@ export const CheckboxFieldGroup = ({
       label={label}
       description={description}
       hasError={hasError}
+      {...containerAttributes}
     >
       <CheckboxField
         type={type}

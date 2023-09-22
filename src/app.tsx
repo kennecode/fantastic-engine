@@ -14,52 +14,21 @@ import { Form, FormActions, FormButton } from 'src/components/Form';
 import { Confirmation } from 'src/components/Confirmation';
 import { CheckboxFieldGroup } from 'src/components/Field/CheckboxFieldGroup';
 import { useAutofocus } from 'src/hooks/useAutofocus';
-
-interface FieldAttributes {
-  required?: boolean | undefined | null;
-  pattern?: string | null;
-  [key: string]: any; // For additional properties
-}
-
-interface FormField {
-  name: string;
-  type: string;
-  label: string;
-  description?: string;
-  attributes?: FieldAttributes;
-  options?: { value: string; label: string }[];
-}
-
-interface Form {
-  action?: string;
-  method?: 'POST' | 'GET' | 'PUT' | 'UPDATE';
-  fields: FormField[];
-}
-
-interface SplashProps {
-  // assuming splash properties here, as they aren't clearly defined in the provided code
-  title?: string;
-  message?: string;
-  [key: string]: any;
-}
-
-interface OpenProps {
-  text?: string;
-  attributes?: FieldAttributes;
-}
-
-interface AppProps {
-  open: OpenProps;
-  splash?: SplashProps;
-  attributes?: FieldAttributes;
-  form: Form;
-}
+import { AppProps } from 'src/interfaces';
 
 const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
 export default function App({ open, splash, form, attributes = {} }: AppProps) {
   const { text, attributes: openAttributes } = open;
-  const { fields } = form;
+  const {
+    fields,
+    nextButton = { text: null, attributes: {} },
+    backButton = { text: null, attributes: {} },
+    submitButton = { text: null, attributes: {} },
+  } = form;
+  const { text: nextText, attributes: nextButtonAttributes } = nextButton;
+  const { text: backText, attributes: backButtonAttributes } = backButton;
+  const { text: submitText, attributes: submitButtonAttributes } = submitButton;
   const [survey, dispatchSurvey] = useReducer(surveyReducer, {
     ...initialSurveyState,
     ...{
@@ -270,6 +239,10 @@ export default function App({ open, splash, form, attributes = {} }: AppProps) {
                         hasPrevious={survey.hasPrevious}
                         onNext={gotoNextQuestion}
                         onPrevious={gotoPreviousQuestion}
+                        nextButtonAttributes={nextButtonAttributes}
+                        nextText={nextText}
+                        backButtonAttributes={backButtonAttributes}
+                        backText={backText}
                       >
                         <span>Control is not supported</span>
                       </SurveyQuestion>
@@ -284,6 +257,10 @@ export default function App({ open, splash, form, attributes = {} }: AppProps) {
                       hasPrevious={survey.hasPrevious}
                       onNext={gotoNextQuestion}
                       onPrevious={gotoPreviousQuestion}
+                      nextButtonAttributes={nextButtonAttributes}
+                      nextText={nextText}
+                      backButtonAttributes={backButtonAttributes}
+                      backText={backText}
                     >
                       <FieldComponent
                         name={field.name}
@@ -298,6 +275,7 @@ export default function App({ open, splash, form, attributes = {} }: AppProps) {
                           survey.fieldErrors[field.name] ||
                           false
                         }
+                        containerAttributes={field.containerAttributes}
                         {...(field.attributes || {})}
                         options={field.options}
                       />
@@ -307,7 +285,9 @@ export default function App({ open, splash, form, attributes = {} }: AppProps) {
               </Survey>
               <ToggleVisibility open={survey.step + 1 === survey.fieldCount}>
                 <FormActions>
-                  <FormButton className="btn btn-submit">Submit</FormButton>
+                  <FormButton {...submitButtonAttributes}>
+                    {submitText || 'Submit'}
+                  </FormButton>
                 </FormActions>
               </ToggleVisibility>
             </Form>

@@ -56,14 +56,6 @@
         border: 1px solid green;
       }
 
-      .open-cta,
-      .survey .btn,
-      .survey .btn-continue {
-        margin-top: 10px;
-        padding: 5px 10px;
-        background-color: #111111;
-        color: #efefef;
-      }
       .survey .lightbox-body {
         padding: 15px 20px;
         width: 60%;
@@ -108,7 +100,7 @@
                 "open": {
                     "text": "Register for the event in 60 seconds",
                     "attributes": {
-                        "className": "open-cta"
+                        "className": "btn btn-primary"
                     }
                 },
                 "splash": {
@@ -116,20 +108,84 @@
                     "headline": "Shine a light on your solar experience in just 60 seconds",
                     "subline": "Help Us Brighten Your Solar Journey: Take Our Quick Survey Toda",
                     "body": "Your insights are a beacon for us! If you're a customer who's gone solar, we want to hear from you. Spare just 60 seconds of your time to complete our survey. Help us make the solar transition smoother for everyone",
-                    "buttonText": "Show me the survey!"
+                    "button": {
+                        "text": "Show me the survey!",
+                        "attributes": {
+                            "className": "btn btn-primary"
+                        }
+                    },
+                    "attributes": {
+                        "className": "btn btn-primary"
+                    }
                 },
                 "form": {
                     "action": "https://hooks.zapier.com/hooks/catch/000000/ABCD12345/",
                     "method": "POST",
-                    "submitText": "Submit",
+                    "backButton": {
+                        "text": "‹",
+                        "attributes": {
+                            "style": {
+                                "textDecoration": "none",
+                                "color": "#999",
+                                "fontWeight": "bold",
+                                "fontSize": "1.4rem"
+                            }
+                        }
+                    },
+                    "nextButton": {
+                        "text": "Go",
+                        "attributes": {
+                            "className": "btn btn-primary"
+                        }
+                    },
+                    "submitButton": {
+                        "text": "Send me quotes",
+                        "attributes": {
+                            "className": "btn btn-primary"
+                        }
+                    },
                     "fields": [
+                        {
+                            "name": "referral",
+                            "label": "How did you hear about us?",
+                            "type": "select",
+                            "containerAttributes":{
+                                "className": "form-group"
+                            },
+                            "attributes": {
+                                "className": "form-control",
+                                "required": true,
+                                "ariaLabel": "How did you hear about us?"
+                            },
+                            "options": [
+                                {
+                                    "value": "search",
+                                    "label": "Search"
+                                },
+                                {
+                                    "value": "friend",
+                                    "label": "A Friend"
+                                },
+                                {
+                                    "value": "other",
+                                    "label": "Somewhere else"
+                                }
+                            ]
+                        },
                         {
                             "name": "topics",
                             "label": "What topics are you interested in?",
                             "type": "checkbox",
+                            "containerAttributes":{
+                                "className": "form-group"
+                            },
+                            "labelAttributes":{
+                                "className": "form-check-label"
+                            },
                             "attributes": {
                                 "required": true,
-                                "aria-label": "What are you interested in"
+                                "ariaLabel": "What are you interested in",
+                                "className": "form-check"
                             },
                             "options": [
                                 {
@@ -150,20 +206,28 @@
                             "name": "firstname",
                             "label": "What is your first name?",
                             "type": "text",
+                            "containerAttributes":{
+                                "className": "form-group row"
+                            },
                             "attributes": {
+                                "className": "form-control",
                                 "required": true,
                                 "placeholder": "Enter your name",
-                                "aria-label": "Enter your name"
+                                "ariaLabel": "Enter your name"
                             }
                         },
                         {
                             "name": "lastname",
                             "label": "What is your last name?",
                             "type": "text",
+                            "containerAttributes":{
+                                "className": "form-group"
+                            },
                             "attributes": {
+                                "className": "form-control",
                                 "required": true,
                                 "placeholder": "Enter your family name",
-                                "aria-label": "Enter your family name"
+                                "ariaLabel": "Enter your family name"
                             }
                         },
                         {
@@ -172,9 +236,10 @@
                             "description": "In case we need to get a hold of you, how can we reach you?",
                             "type": "tel",
                             "attributes": {
+                                "className": "form-control",
                                 "required": true,
                                 "placeholder": "000-000-0000",
-                                "aria-label": "Enter your phone",
+                                "ariaLabel": "Enter your phone",
                                 "pattern": "[0-9]{3}[0-9]{3}[0-9]{4}"
                             }
                         },
@@ -184,49 +249,35 @@
                             "description": "We promise not to spam you.",
                             "type": "email",
                             "attributes": {
+                                "className": "form-control",
                                 "required": true,
                                 "placeholder": "Enter your address",
-                                "aria-label": "Enter your address"
+                                "ariaLabel": "Enter your address"
                             }
                         },
                         {
                             "name": "notes",
                             "label": "Tell us notes",
                             "type": "textarea",
+                            "containerAttributes":{
+                                "className": "form-group"
+                            },
                             "attributes": {
+                                "className": "form-control",
                                 "required": true,
                                 "placeholder": "Describe notes",
-                                "aria-label": "Enter your notes"
+                                "ariaLabel": "Enter your notes"
                             }
-                        },
-                        {
-                            "name": "referral",
-                            "label": "How did you hear about us?",
-                            "type": "select",
-                            "attributes": {
-                                "required": true,
-                                "aria-label": "How did you hear about us?"
-                            },
-                            "options": [
-                                {
-                                    "value": "search",
-                                    "label": "Search"
-                                },
-                                {
-                                    "value": "friend",
-                                    "label": "A Friend"
-                                },
-                                {
-                                    "value": "other",
-                                    "label": "Somewhere else"
-                                }
-                            ]
                         },
                         {
                             "name": "company_size",
                             "label": "How big is your company?",
                             "type": "select",
+                            "containerAttributes":{
+                                "className": "form-group"
+                            },
                             "attributes": {
+                                "className": "form-control",
                                 "required": true,
                                 "placeholder": "Select your company size"
                             },

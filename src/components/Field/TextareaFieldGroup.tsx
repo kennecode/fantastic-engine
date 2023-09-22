@@ -12,13 +12,14 @@ export interface TextareaFieldGroup extends TextareaFieldProps {
 }
 
 export const TextareaFieldGroup = ({
-  className = 'control',
   name,
   label,
   description,
   hasError = false,
+  containerAttributes = {},
   ...restProps
 }: TextareaFieldGroup) => {
+  const { className } = containerAttributes;
   return (
     <Field
       className={className}

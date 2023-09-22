@@ -10,6 +10,7 @@ export interface FieldProps {
   description?: string;
   children: React.ReactNode;
   hasError?: boolean;
+  [key: string]: any;
 }
 
 export const Field = ({
@@ -19,6 +20,7 @@ export const Field = ({
   description,
   children,
   hasError = false,
+  ...rest
 }: FieldProps) => {
   return (
     <div className={className}>

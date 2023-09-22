@@ -1,6 +1,7 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
 import { FormButton } from 'src/components/Form';
+import { SplashProps } from 'src/interfaces';
 
 const SplashHeadline = (props: any) => (
   <h1 className="splash-headline">{props.children}</h1>
@@ -17,10 +18,10 @@ const SplashEyebrow = (props: any) => (
 const SplashBody = (props: any) => <p>{props.children}</p>;
 
 const SplashButton = (props: any) => {
-  const { children, onContinue, ...rest } = props;
+  const { children, onContinue, attributes, ...rest } = props;
   return (
     <div>
-      <FormButton {...rest} onClick={() => onContinue()}>
+      <FormButton {...attributes} {...rest} onClick={() => onContinue()}>
         {children}
       </FormButton>
     </div>
@@ -34,8 +35,8 @@ export const Splash = (props: any) => {
       <SplashHeadline>{props.headline}</SplashHeadline>
       <SplashSubline>{props.subline}</SplashSubline>
       <SplashBody>{props.body}</SplashBody>
-      <SplashButton class="btn btn-continue" onContinue={props.onContinue}>
-        Continue
+      <SplashButton {...props.button} onContinue={props.onContinue}>
+        {props.button?.text || 'Continue'}
       </SplashButton>
     </ToggleVisibility>
   );
