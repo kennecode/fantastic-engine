@@ -16,10 +16,13 @@ export const TextareaFieldGroup = ({
   label,
   description,
   hasError = false,
+  containerAttributes = {},
   ...restProps
 }: TextareaFieldGroup) => {
+  const { className } = containerAttributes;
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}

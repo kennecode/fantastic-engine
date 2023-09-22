@@ -23,19 +23,24 @@ export const TextFieldGroup = ({
   placeholder,
   required = false,
   pattern,
+  containerAttributes = {},
   autofocus = false,
   hasError = false,
   value = '',
   onChange = () => {},
   onBlur = () => {},
   onFocus = () => {},
+  ...rest
 }: TextFieldGroupProps) => {
+  const { className } = containerAttributes;
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}
       hasError={hasError}
+      {...containerAttributes}
     >
       <TextField
         type={type}
@@ -49,6 +54,7 @@ export const TextFieldGroup = ({
         onFocus={onFocus}
         autoFocus={autofocus}
         value={value}
+        {...rest}
       />
     </Field>
   );

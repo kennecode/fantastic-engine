@@ -18,6 +18,7 @@ export const DataListFieldOption = (props: DataListFieldOptionProps) => {
 export interface DataListFieldProps {
   name: string;
   options?: { value: string; label: string }[];
+  className?: string;
   [key: string]: any; // for the rest of the input attributes
 }
 

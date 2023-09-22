@@ -14,12 +14,8 @@ const containerStyles = {
 
 const bodyStyles = {
   background: '#fff',
-  width: '50%',
-  minHeight: 75,
-  minWidth: 380,
   maxHeight: '100vh',
   margin: 'auto',
-  padding: 15,
   overflowY: 'auto',
 };
 
@@ -28,7 +24,11 @@ interface LightboxContainerProps {
   children: React.ReactNode;
 }
 
-const LightboxContainer = ({ onClose, children }: LightboxContainerProps) => {
+const LightboxContainer = ({
+  onClose,
+  children,
+  ...rest
+}: LightboxContainerProps) => {
   const dataAttributeValue = 'lightbox-container';
   const onClickToClose = (e: any) => {
     const target = e.target.getAttribute('data-widget');
@@ -37,13 +37,14 @@ const LightboxContainer = ({ onClose, children }: LightboxContainerProps) => {
   };
 
   return (
-    <div
+    <section
+      {...rest}
       data-widget={dataAttributeValue}
       style={containerStyles}
       onClick={onClickToClose}
     >
       {children}
-    </div>
+    </section>
   );
 };
 
@@ -52,7 +53,11 @@ interface LightboxBodyProps {
 }
 
 const LightboxBody = ({ children }: LightboxBodyProps) => {
-  return <div style={bodyStyles}>{children}</div>;
+  return (
+    <div className="lightbox-body" style={bodyStyles}>
+      {children}
+    </div>
+  );
 };
 
 interface LightboxProps {
@@ -61,7 +66,12 @@ interface LightboxProps {
   children: React.ReactNode;
 }
 
-export const Lightbox = ({ open, onClose, children }: LightboxProps) => {
+export const Lightbox = ({
+  open,
+  onClose,
+  children,
+  ...rest
+}: LightboxProps) => {
   React.useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -70,10 +80,9 @@ export const Lightbox = ({ open, onClose, children }: LightboxProps) => {
       document.body.style.overflow = 'auto';
     };
   }, [open]);
-
   return (
     <ToggleVisibility open={open}>
-      <LightboxContainer onClose={onClose}>
+      <LightboxContainer {...rest} onClose={onClose}>
         <LightboxBody>{children}</LightboxBody>
       </LightboxContainer>
     </ToggleVisibility>
