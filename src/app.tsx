@@ -71,11 +71,8 @@ export default function App({ open, splash, form, attributes = {} }: AppProps) {
         />
         <ToggleVisibility open={survey.showForm}>
           <ToggleVisibility open={!survey.posting}>
-            {/*submitForm*/}
             <Form
-              onSubmit={() => {
-                console.log('submitForm');
-              }}
+              onSubmit={submitForm}
               hasError={survey.hasError}
               errorMessage={survey.errorMessage}
             >
@@ -83,9 +80,7 @@ export default function App({ open, splash, form, attributes = {} }: AppProps) {
                 <SurveyForm
                   form={form}
                   survey={survey}
-                  captureFormData={() => {
-                    console.log('captureFormData');
-                  }}
+                  captureFormData={captureFormData}
                   gotoNextQuestion={gotoNextQuestion}
                   gotoPreviousQuestion={gotoPreviousQuestion}
                 />
