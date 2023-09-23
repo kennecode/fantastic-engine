@@ -35,26 +35,9 @@ export const SurveyForm = ({
   return (
     <Survey>
       {form.fields.map((field: any, i: number) => {
-        const FieldComponent = FieldComponents[field.type];
-        if (!FieldComponent) {
-          return (
-            <SurveyQuestion
-              key={`question${i}`}
-              open={survey.step === i}
-              hasNext={survey.hasNext}
-              hasPrevious={survey.hasPrevious}
-              onNext={gotoNextQuestion}
-              onPrevious={gotoPreviousQuestion}
-              nextButtonAttributes={nextButtonAttributes}
-              nextText={nextText}
-              backButtonAttributes={backButtonAttributes}
-              backText={backText}
-            >
-              <span>Control is not supported</span>
-            </SurveyQuestion>
-          );
-        }
-
+        const FieldComponent = FieldComponents[field.type] || (
+          <span>Control is not supported</span>
+        );
         return (
           <SurveyQuestion
             key={`question${i}`}
