@@ -6,6 +6,8 @@ import {
 interface SurveyStatField {
   name: string;
   required: boolean;
+  type: string;
+  attributes?: Record<string, any>;
   pattern?: string | null;
 }
 
