@@ -1,5 +1,4 @@
-import React, { useReducer } from 'preact/compat';
-import { surveyReducer, initialSurveyState } from './reducers/surveyReducer';
+import React from 'preact/compat';
 import { Lightbox } from 'src/components/Lightbox';
 import { Attention } from 'src/components/Attention';
 import { Splash } from 'src/components/Splash';
@@ -10,8 +9,6 @@ import { AppProps } from 'src/interfaces';
 import { SurveyForm } from 'src/components/SurveyForm';
 import { useAutofocus } from 'src/hooks/useAutofocus';
 import { useSurvey } from 'src/hooks/useSurveyHook';
-
-const EMAIL_REGEX = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 
 export default function App({ open, splash, form, attributes = {} }: AppProps) {
   const { text, attributes: openAttributes } = open;
