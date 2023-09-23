@@ -1,4 +1,5 @@
 export * from './CheckboxField';
+export * from './CheckboxFieldGroup';
 export * from './DataListField';
 export * from './DataListFieldGroup';
 export * from './TextareaFieldGroup';
