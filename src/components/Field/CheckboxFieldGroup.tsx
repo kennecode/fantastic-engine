@@ -18,16 +18,20 @@ export const CheckboxFieldGroup = ({
   value = '',
   hasError = false,
   pattern,
+  containerAttributes = {},
   onChange = () => {},
   onBlur = () => {},
   onFocus = () => {},
 }: CheckboxFieldGroupProps): any => {
+  const { className } = containerAttributes;
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}
       hasError={hasError}
+      {...containerAttributes}
     >
       <CheckboxField
         type={type}

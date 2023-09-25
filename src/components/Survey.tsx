@@ -1,6 +1,7 @@
 import React from 'preact/compat';
 import { ToggleVisibility } from 'src/components/ToggleVisibility';
 import { FormButton } from 'src/components/Form';
+import { FieldAttributes } from 'src/interfaces';
 
 interface SurveyQuestionProps {
   children: React.ReactNode | string;
@@ -9,28 +10,24 @@ interface SurveyQuestionProps {
   hasPrevious?: boolean;
   hasNext?: boolean;
   open: boolean;
+  nextText?: string | undefined | null;
+  backText?: string | undefined | null;
+  nextButtonAttributes?: FieldAttributes;
+  backButtonAttributes?: FieldAttributes;
 }
 
-const PreviousLink = ({ onHandlePrevious }: any) => (
+const PreviousLink = ({ text, onHandlePrevious, ...rest }: any) => (
   <div>
-    <a
-      href="#"
-      onClick={onHandlePrevious}
-      style={{
-        textDecoration: 'none',
-        color: '#999',
-        fontWeight: 'bold',
-      }}
-    >
-      &#8249;
+    <a href="#" onClick={onHandlePrevious} {...rest}>
+      {text}
     </a>
   </div>
 );
 
-const NextButton = ({ onHandleNext }: any) => (
+const NextButton = ({ text, onHandleNext, ...rest }: any) => (
   <div>
-    <FormButton type="button" onClick={onHandleNext}>
-      Next
+    <FormButton {...rest} type="button" onClick={onHandleNext}>
+      {text}
     </FormButton>
   </div>
 );
@@ -42,6 +39,10 @@ export const SurveyQuestion = ({
   onPrevious,
   hasNext = false,
   hasPrevious = false,
+  nextButtonAttributes,
+  nextText,
+  backButtonAttributes,
+  backText,
 }: SurveyQuestionProps) => {
   const onHandleNext = (e: any) => {
     e.preventDefault();
@@ -59,9 +60,21 @@ export const SurveyQuestion = ({
   return (
     <ToggleVisibility open={open} useCss={true}>
       <>
-        {hasPrevious && <PreviousLink onHandlePrevious={onHandlePrevious} />}
+        {hasPrevious && (
+          <PreviousLink
+            text={backText || '‹'}
+            {...backButtonAttributes}
+            onHandlePrevious={onHandlePrevious}
+          />
+        )}
         <div>{children}</div>
-        {hasNext && <NextButton onHandleNext={onHandleNext} />}
+        {hasNext && (
+          <NextButton
+            text={nextText || '‹'}
+            {...nextButtonAttributes}
+            onHandleNext={onHandleNext}
+          />
+        )}
       </>
     </ToggleVisibility>
   );

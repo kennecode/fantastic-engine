@@ -14,15 +14,19 @@ export const DataListFieldGroup = ({
   name,
   label,
   description,
+  containerAttributes = {},
   hasError = false,
   ...restProps
 }: DataListFieldGroupProps): any => {
+  const { className } = containerAttributes;
   return (
     <Field
+      className={className}
       labelFor={name}
       label={label}
       description={description}
       hasError={hasError}
+      {...containerAttributes}
     >
       <DataListField {...restProps} id={name} name={name} />
     </Field>
